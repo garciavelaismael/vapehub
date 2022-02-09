@@ -3,15 +3,17 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard.component';
 import { InicioComponent } from './inicio/inicio.component';
 import { ReportesComponent } from './reportes/reportes.component';
-import { CrearUsuarioComponent } from './usuarios/crear-usuario/crear-usuario.component';
-import { UsuariosComponent } from './usuarios/usuarios.component';
+import { ClientesComponent } from './usuarios/clientes/clientes.component';
+import { CrearClienteComponent } from './usuarios/crear-cliente/crear-cliente.component';
+import { EmpleadosComponent } from './usuarios/empleados/empleados.component';
 
 const routes: Routes = [
   { path:'', component: DashboardComponent, children: [
     { path:'', component: InicioComponent },
-    { path:'usuarios', component: UsuariosComponent },
+    { path:'clientes', component: ClientesComponent },
+    { path:'empleados', component: EmpleadosComponent },
     { path:'reportes', component: ReportesComponent },
-    { path:'crear-usuario', component: CrearUsuarioComponent }
+    { path:'crear-cliente', component: CrearClienteComponent }
   ] }
 ];
 

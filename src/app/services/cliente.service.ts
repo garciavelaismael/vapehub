@@ -1,30 +1,29 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Usuario } from '../interfaces/usuario';
+import { Observable } from 'rxjs';
+import { tCliente } from '../interfaces/usuarios';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClienteService {
-  listUsuarios: Usuario[] = [
-    { dni: "1", nombre: 'Juan', apellido: "García", sexo: 'Masculino' },
-    { dni: "2", nombre: 'Luis', apellido: "Pérez", sexo: 'Masculino' },
-    { dni: "3", nombre: 'Fran', apellido: "Piedra", sexo: 'Masculino' },
-    { dni: "4", nombre: 'Maria', apellido: "López", sexo: 'Femenino' },
-    { dni: "5", nombre: 'Pedro', apellido: "Olmedo", sexo: 'Masculino' },
-    { dni: "6", nombre: 'Israel', apellido: "Reyes", sexo: 'Masculino' },
-    { dni: "7", nombre: 'Andres', apellido: "Trujillo", sexo: 'Masculino' }
-  ];
-  constructor() { }
+  url = 'https://api-vapehub.herokuapp.com/clientes'
 
-  getCliente(){
-    return this.listUsuarios.slice();
+  constructor(private http: HttpClient) { }
+
+  getCliente(): Observable<any> {
+    return this.http.get(this.url);
   }
 
-  eliminarCliente(index: number){
-    this.listUsuarios.splice(index, 1);
+  eliminarCliente(id: any): Observable<any> {
+    return this.http.delete(this.url + '/delete/' + id)
   }
-
-  agregarCliente(usuario: Usuario){
-    this.listUsuarios.unshift(usuario);
+  
+  agregarCliente(cliente: tCliente): Observable<any> {
+    return this.http.post(this.url + '/addCliente', cliente)
   }
+//
+//  agregarCliente(usuario: Usuario){
+//    this.listUsuarios.unshift(usuario);
+//  }
 }

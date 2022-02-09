@@ -4,8 +4,12 @@
         "redirect": "/dashboard"
     },
     {
-        "nombre": "Usuarios",
-        "redirect": "/dashboard/usuarios"
+        "nombre": "Clientes",
+        "redirect": "/dashboard/clientes"
+    },
+    {
+        "nombre": "Empleados",
+        "redirect": "/dashboard/empleados"
     },
     {
         "nombre": "Reportes",
