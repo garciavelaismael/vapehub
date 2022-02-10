@@ -10,6 +10,7 @@ import { ReportesComponent } from './reportes/reportes.component';
 import { ClientesComponent } from './usuarios/clientes/clientes.component';
 import { EmpleadosComponent } from './usuarios/empleados/empleados.component';
 import { CrearClienteComponent } from './usuarios/crear-cliente/crear-cliente.component';
+import { CrearEmpleadoComponent } from './usuarios/crear-empleado/crear-empleado.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { CrearClienteComponent } from './usuarios/crear-cliente/crear-cliente.co
     ReportesComponent,
     ClientesComponent,
     EmpleadosComponent,
-    CrearClienteComponent
+    CrearClienteComponent,
+    CrearEmpleadoComponent,
   ],
   imports: [
     CommonModule,

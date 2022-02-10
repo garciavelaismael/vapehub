@@ -7,23 +7,25 @@ import { tCliente } from '../interfaces/usuarios';
   providedIn: 'root'
 })
 export class ClienteService {
-  url = 'https://api-vapehub.herokuapp.com/clientes'
+  baseUrl = 'https://api-vapehub.herokuapp.com/clientes'
 
   constructor(private http: HttpClient) { }
 
   getCliente(): Observable<any> {
-    return this.http.get(this.url);
+    return this.http.get(this.baseUrl);
   }
 
-  eliminarCliente(id: any): Observable<any> {
-    return this.http.delete(this.url + '/delete/' + id)
+  deleteCliente(id: any): Observable<any> {
+    return this.http.delete(this.baseUrl + '/delete/' + id, {responseType: 'text'})
   }
   
-  agregarCliente(cliente: tCliente): Observable<any> {
-    return this.http.post(this.url + '/addCliente', cliente)
+  addCliente(cliente: tCliente): Observable<any> {
+    return this.http.post(this.baseUrl + '/addCliente', cliente)
   }
-//
-//  agregarCliente(usuario: Usuario){
-//    this.listUsuarios.unshift(usuario);
-//  }
+
+  editCliente(id: string, cliente: tCliente): Observable<any> {
+    return this.http.post(this.baseUrl + '/update/' + id, cliente)
+  }
+
+  
 }

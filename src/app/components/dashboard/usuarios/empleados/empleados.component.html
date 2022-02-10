@@ -1,73 +1,72 @@
 <div class="container">
-    <mat-toolbar>
-      <span>Empleados</span>
-      <div class="example-spacer"></div>
-      <button mat-raised-button color="primary" routerLink="/dashboard/crear-usuario">Agregar</button>
-    </mat-toolbar>
-  
-    <div *ngIf="listEmpleados.length > 0">
-      <mat-form-field appearance="standard">
-        <mat-label>Filter</mat-label>
-        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input />
-      </mat-form-field>
-      <div class="mat-elevation-z6">
-        <table mat-table [dataSource]="dataSource" matSort>
-          <ng-container matColumnDef="id">
-            <th mat-header-cell *matHeaderCellDef>DNI</th>
-            <td mat-cell *matCellDef="let empleados">{{ empleados._id }}</td>
-          </ng-container>
-  
-          <ng-container matColumnDef="nombre">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
-            <td mat-cell *matCellDef="let empleados">{{ empleados._nombre }}</td>
-          </ng-container>
-  
-          <ng-container matColumnDef="calle">
-            <th mat-header-cell *matHeaderCellDef>Calle</th>
-            <td mat-cell *matCellDef="let empleados">{{ empleados._direccion.calle }}</td>
-          </ng-container>
-  
-          <ng-container matColumnDef="numero">
-            <th mat-header-cell *matHeaderCellDef>Número</th>
-            <td mat-cell *matCellDef="let empleados">{{ empleados._direccion.numero }}</td>
-          </ng-container>
-  
-          <ng-container matColumnDef="telefono">
-            <th mat-header-cell *matHeaderCellDef>Teléfono</th>
-            <td mat-cell *matCellDef="let empleados">{{ empleados._telefono }}</td>
-          </ng-container>
-  
-          <ng-container matColumnDef="email">
-            <th mat-header-cell *matHeaderCellDef>Email</th>
-            <td mat-cell *matCellDef="let empleados">{{ empleados._email }}</td>
-          </ng-container>
-  
-          <ng-container matColumnDef="socio">
-            <th mat-header-cell *matHeaderCellDef>Socio</th>
-            <td mat-cell *matCellDef="let empleados" ng-if="empleados._socio.IsActive === 0">Sí</td>
-          </ng-container>
-  
-          <ng-container matColumnDef="acciones">
-            <th mat-header-cell *matHeaderCellDef></th>
-            <td mat-cell *matCellDef="let element; let '_id' = index" style="text-align: right">
-              <a class="pointer" style="color: blue" matTooltip="Ver Usuario">
-                <mat-icon>search</mat-icon>
-              </a>
-              <a class="pointer" style="color: green" matTooltip="Editar Usuario">
-                <mat-icon>edit</mat-icon>
-              </a>
-             <!-- <a class="pointer" (click)="eliminarCliente(i)" style="color: red" matTooltip="Eliminar Usuario">
-                <mat-icon>delete</mat-icon>
-              </a> -->
-            </td>
-          </ng-container>
-  
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-        </table>
-        <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
-        </mat-paginator>
-      </div>
+  <mat-toolbar>
+    <span>Empleados</span>
+    <div class="example-spacer"></div>
+    <button mat-raised-button color="primary" (click)="addEmpleado()">Agregar</button>
+  </mat-toolbar>
+  <div *ngIf="listEmpleados.length > 0">
+    <mat-form-field appearance="standard">
+      <mat-label>Filter</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Filter" #input />
+    </mat-form-field>
+    <div class="mat-elevation-z6">
+      <table mat-table [dataSource]="dataSource" matSort>
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>DNI</th>
+          <td mat-cell *matCellDef="let empleados">{{ empleados._id }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="nombre">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+          <td mat-cell *matCellDef="let empleados">{{ empleados._nombre }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="calle">
+          <th mat-header-cell *matHeaderCellDef>Calle</th>
+          <td mat-cell *matCellDef="let empleados">{{ empleados._direccion.calle }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="numero">
+          <th mat-header-cell *matHeaderCellDef>Número</th>
+          <td mat-cell *matCellDef="let empleados">{{ empleados._direccion.numero }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="telefono">
+          <th mat-header-cell *matHeaderCellDef>Teléfono</th>
+          <td mat-cell *matCellDef="let empleados">{{ empleados._telefono }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef>Email</th>
+          <td mat-cell *matCellDef="let empleados">{{ empleados._email }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="puesto">
+          <th mat-header-cell *matHeaderCellDef>Puesto</th>
+          <td mat-cell *matCellDef="let empleados">{{ empleados._puesto }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="acciones">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let empleados;" style="text-align: right">
+            <a class="pointer" (click)="editEmpleado(empleados._id)" style="color: green" matTooltip="Editar Usuario">
+              <mat-icon>edit</mat-icon>
+            </a>
+            <a class="pointer" (click)="deleteEmpleado(empleados._id)" style="color: red" matTooltip="Eliminar Usuario">
+              <mat-icon>delete</mat-icon>
+            </a>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+      <!--<mat-paginator [length]="10" [pageSize]="10" [pageSizeOptions]="[5, 10, 20]">
+      </mat-paginator> -->
     </div>
-    <h2 *ngIf="listEmpleados.length == 0">No hay empleados para mostrar</h2>
   </div>
+  <br>
+  <mat-card *ngIf="listEmpleados.length == 0" style="text-align: center;"><b>No hay empleados</b></mat-card>
+  <br>
+  <mat-spinner *ngIf="loading" class="spinner" diameter="50" style="margin: 0 auto;"></mat-spinner>
+</div>

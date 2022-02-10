@@ -91,6 +91,40 @@ export class Cliente extends Persona {
   }
 }
 
+
+export class Compra {
+
+    protected _id: string;
+    protected _nombreCliente: string;
+    protected _coste: number;
+    protected _productos: Array<Producto>;
+
+    constructor(_id: string, _nombreCliente: string, _coste: number, _productos: Array<Producto>) {
+      this._id = _id;
+      this._nombreCliente = _nombreCliente;
+      this._coste = _coste;
+      this._productos = _productos;
+    }
+
+    get getId() {
+      return this._id;
+    }
+    get getCliente() {
+      return this._nombreCliente;
+    }
+    get getProductos() {
+      return this._productos;
+    }
+  
+    todoCompra() {
+      return `ID: ${this._id}, 
+        : nombreCliente: ${this._nombreCliente}, 
+        coste: ${this._coste},
+        productos:  ${this._productos}`;
+    }
+  }
+
+
 export class Empleado extends Persona {
   public _puesto: string;
   constructor(
@@ -129,12 +163,22 @@ export class Empleado extends Persona {
 
 //exporta tipo cliente
 export type tCliente = {
-  _id: string | null;
-  _nombre: string | null;
-  _calle: string;
-  _numero: number;
-  _telefono: number | null;
-  _email: string | null;
-  _socio: Boolean | null;
-  _carrito: Array<Producto>;
+  id: string | null;
+  nombre: string | null;
+  calle: string;
+  numero: number;
+  telefono: number | null;
+  email: string | null;
+  socio: Boolean | null;
+};
+
+//exporta tipo empleado
+export type tEmpleado = {
+  id: string | null;
+  nombre: string | null;
+  calle: string;
+  numero: number;
+  telefono: number | null;
+  email: string | null;
+  puesto: string | null;
 };

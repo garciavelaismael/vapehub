@@ -1,10 +1,10 @@
 <div class="container">
     <mat-toolbar>
-        <span>Crear Clientes</span>
+        <span>Crear Empleado</span>
     </mat-toolbar>
 
     <mat-card style="margin-top: 10px;">
-        <form [formGroup]="clienteForm">
+        <form [formGroup]="empleadoForm">
             <mat-grid-list cols="4" rowHeight="70px">
                 <mat-grid-tile [colspan]="1" [rowspan]="1">
                     <mat-form-field class="ancho">
@@ -47,13 +47,13 @@
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="1" [rowspan]="1">
                     <mat-form-field class="ancho">
-                        <mat-label>Socio</mat-label>
-                        <input matInput type="number" max="1" min="0" autocomplete="off" formControlName="socio">
+                        <mat-label>Puesto</mat-label>
+                        <input matInput autocomplete="off" formControlName="puesto">
                     </mat-form-field>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="1" [rowspan]="1">
-                    <button routerLink="/dashboard/clientes" mat-raised-button style="margin-right: 20px;">Volver</button>
-                    <button type="submit" (click)="addCliente()" [disabled]="clienteForm.invalid" mat-raised-button color="primary">Aceptar</button>
+                    <button routerLink="/dashboard/empleados" mat-raised-button style="margin-right: 20px;">Volver</button>
+                    <button type="submit" (click)="addEmpleado()" [disabled]="empleadoForm.invalid" mat-raised-button color="primary">Aceptar</button>
                 </mat-grid-tile>
             </mat-grid-list>
         </form>

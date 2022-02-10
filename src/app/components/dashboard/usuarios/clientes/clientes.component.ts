@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef, SimpleChanges } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { Cliente } from 'src/app/interfaces/usuarios';
 import { ClienteService } from 'src/app/services/cliente.service';
 
@@ -13,6 +14,7 @@ import { ClienteService } from 'src/app/services/cliente.service';
 })
 export class ClientesComponent implements OnInit {
 
+  loading = true;
   listClientes: Cliente[] = [];
 
   displayedColumns = ['id', 'nombre', 'calle', 'numero', 'telefono', 'email', 'socio', 'acciones'];
@@ -22,22 +24,22 @@ export class ClientesComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private _clienteService: ClienteService, private _snackBar: MatSnackBar, private _changeDetectorRefs: ChangeDetectorRef) { }
+  constructor(private _clienteService: ClienteService,
+    private _snackBar: MatSnackBar,
+    private _changeDetectorRefs: ChangeDetectorRef,
+    private _router: Router) { }
 
   ngOnInit(): void {
-    this.cargarClientes();
-  }
-
-  cargarClientes() {
     this._clienteService.getCliente().subscribe(data => {
-      this.listClientes = data,      
+      this.listClientes = data,
         this.dataSource = new MatTableDataSource(this.listClientes);
+      this.loading = false;
     })
   }
 
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    //this.dataSource.paginator = this.paginator;
+    //this.dataSource.sort = this.sort;
   }
 
   applyFilter(event: Event) {
@@ -45,15 +47,20 @@ export class ClientesComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  eliminarCliente(id: any) {
-    this._clienteService.eliminarCliente(id).subscribe((data: any[]) => {
-      console.log(this.dataSource.data);
-      this.dataSource.data = data;
-        })
-    this._snackBar.open('Cliente eliminado correctamente', '', {
-      duration: 1500,
-      horizontalPosition: 'center',
-      verticalPosition: 'bottom'
-    })
- }
+  deleteCliente(id: number) {
+    this._clienteService.deleteCliente(id). subscribe(data => {
+        console.log(data);
+        this.ngOnInit();
+      },
+        error => console.log(error));
+  }
+
+  addCliente() {
+    this._router.navigate(['/dashboard/crear-cliente']);
+  }
+
+  editCliente(id: number) {
+    this._router.navigate(['/dashboard/crear-cliente', id]);
+    console.log(id);
+  }
 }

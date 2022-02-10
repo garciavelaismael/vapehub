@@ -4,6 +4,10 @@
         "redirect": "/dashboard"
     },
     {
+        "nombre": "Producto",
+        "redirect": "/dashboard/productos"
+    },
+    {
         "nombre": "Clientes",
         "redirect": "/dashboard/clientes"
     },

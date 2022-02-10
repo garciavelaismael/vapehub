@@ -5,6 +5,7 @@ import { InicioComponent } from './inicio/inicio.component';
 import { ReportesComponent } from './reportes/reportes.component';
 import { ClientesComponent } from './usuarios/clientes/clientes.component';
 import { CrearClienteComponent } from './usuarios/crear-cliente/crear-cliente.component';
+import { CrearEmpleadoComponent } from './usuarios/crear-empleado/crear-empleado.component';
 import { EmpleadosComponent } from './usuarios/empleados/empleados.component';
 
 const routes: Routes = [
@@ -13,7 +14,10 @@ const routes: Routes = [
     { path:'clientes', component: ClientesComponent },
     { path:'empleados', component: EmpleadosComponent },
     { path:'reportes', component: ReportesComponent },
-    { path:'crear-cliente', component: CrearClienteComponent }
+    { path:'crear-cliente', component: CrearClienteComponent },
+    { path:'crear-cliente/:id', component: CrearClienteComponent },
+    { path:'crear-empleado', component: CrearEmpleadoComponent },
+    { path:'crear-empleado/:id', component: CrearEmpleadoComponent }
   ] }
 ];
 

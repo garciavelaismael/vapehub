@@ -1,24 +1,29 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { tEmpleado } from '../interfaces/usuarios';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EmpleadoService {
-  url = 'https://api-vapehub.herokuapp.com/empleados'
+  baseUrl = 'https://api-vapehub.herokuapp.com/empleados'
 
   constructor(private http: HttpClient) { }
 
   getEmpleado(): Observable<any> {
-    return this.http.get(this.url);
+    return this.http.get(this.baseUrl);
   }
 
-//  eliminarCliente(index: number){
-//    this.listUsuarios.splice(index, 1);
-//  }
-//
-//  agregarCliente(usuario: Usuario){
-//    this.listUsuarios.unshift(usuario);
-//  }
+  deleteEmpleado(id: any): Observable<any> {
+    return this.http.delete(this.baseUrl + '/delete/' + id, {responseType: 'text'})
+  }
+  
+  addEmpleado(empleado: tEmpleado): Observable<any> {
+    return this.http.post(this.baseUrl + '/addEmpleado', empleado)
+  }
+
+  editEmpleado(id: string, empleado: tEmpleado): Observable<any> {
+    return this.http.post(this.baseUrl + '/update/' + id, empleado)
+  }
 }
