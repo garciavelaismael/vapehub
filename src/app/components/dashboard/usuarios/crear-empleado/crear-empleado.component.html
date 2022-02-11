@@ -52,6 +52,18 @@
                     </mat-form-field>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="1" [rowspan]="1">
+                    <mat-form-field class="ancho">
+                        <mat-label>NºVentas</mat-label>
+                        <input matInput type="number" autocomplete="off" formControlName="ventas">
+                    </mat-form-field>
+                </mat-grid-tile>
+                <mat-grid-tile [colspan]="1" [rowspan]="1">
+                    <mat-form-field class="ancho">
+                        <mat-label>NºHoras</mat-label>
+                        <input matInput type="number" max="240" autocomplete="off" formControlName="horas">
+                    </mat-form-field>
+                </mat-grid-tile>
+                <mat-grid-tile [colspan]="1" [rowspan]="1">
                     <button routerLink="/dashboard/empleados" mat-raised-button style="margin-right: 20px;">Volver</button>
                     <button type="submit" (click)="addEmpleado()" [disabled]="empleadoForm.invalid" mat-raised-button color="primary">Aceptar</button>
                 </mat-grid-tile>

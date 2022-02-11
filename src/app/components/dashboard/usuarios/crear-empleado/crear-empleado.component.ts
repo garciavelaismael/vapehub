@@ -28,6 +28,8 @@ export class CrearEmpleadoComponent implements OnInit {
         telefono: ['', Validators.required],
         email: ['', Validators.required],
         puesto: ['', Validators.required],
+        ventas: ['', Validators.required],
+        horas: ['', Validators.required]
       })
     this.id = this.aRouter.snapshot.paramMap.get('id')
   }
@@ -44,7 +46,9 @@ export class CrearEmpleadoComponent implements OnInit {
       numero: this.empleadoForm.get('numero')?.value,
       telefono: this.empleadoForm.get('telefono')?.value,
       email: this.empleadoForm.get('email')?.value,
-      puesto: this.empleadoForm.get('salario')?.value,
+      puesto: this.empleadoForm.get('puesto')?.value,
+      ventas: this.empleadoForm.get('ventas')?.value,
+      horas: this.empleadoForm.get('horas')?.value,
     }
     if(this.id !== null){
       this._empleadoService.editEmpleado(this.id, EMPLEADO).subscribe();    
@@ -65,7 +69,9 @@ export class CrearEmpleadoComponent implements OnInit {
         numero: data[0]._direccion.numero,
         telefono: data[0]._telefono,
         email: data[0]._email,
-        puesto: data[0].puesto,
+        puesto: data[0]._puesto,
+        ventas: data[0]._ventas,
+        horas: data[0]._horas
       })
     })
   }

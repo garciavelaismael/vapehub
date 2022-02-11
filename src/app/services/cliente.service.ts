@@ -24,7 +24,7 @@ export class ClienteService {
   }
 
   editCliente(id: string, cliente: tCliente): Observable<any> {
-    return this.http.post(this.baseUrl + '/update/' + id, cliente)
+    return this.http.put(this.baseUrl + '/update/' + id, cliente)
   }
 
   

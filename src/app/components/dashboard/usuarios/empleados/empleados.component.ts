@@ -17,7 +17,7 @@ export class EmpleadosComponent implements OnInit {
   loading = true;
   listEmpleados: Empleado[] = [];
 
-  displayedColumns = ['id', 'nombre', 'calle', 'numero', 'telefono', 'email', 'puesto', 'acciones'];
+  displayedColumns = ['id', 'nombre', 'calle', 'numero', 'telefono', 'email', 'puesto', 'ventas', 'horas','acciones'];
   dataSource!: MatTableDataSource<any>;
 
 

@@ -4,7 +4,7 @@
         "redirect": "/dashboard"
     },
     {
-        "nombre": "Producto",
+        "nombre": "Productos",
         "redirect": "/dashboard/productos"
     },
     {

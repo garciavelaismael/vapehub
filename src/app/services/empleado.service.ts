@@ -24,6 +24,6 @@ export class EmpleadoService {
   }
 
   editEmpleado(id: string, empleado: tEmpleado): Observable<any> {
-    return this.http.post(this.baseUrl + '/update/' + id, empleado)
+    return this.http.put(this.baseUrl + '/update/' + id, empleado)
   }
 }

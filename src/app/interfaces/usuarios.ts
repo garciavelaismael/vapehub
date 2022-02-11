@@ -42,6 +42,7 @@ export class Persona {
     Telefono: ${this._telefono}, 
     Email : ${this._email}`;
   }
+  
 }
 
 export class Cliente extends Persona {
@@ -94,39 +95,41 @@ export class Cliente extends Persona {
 
 export class Compra {
 
-    protected _id: string;
-    protected _nombreCliente: string;
-    protected _coste: number;
-    protected _productos: Array<Producto>;
+  protected _id: string;
+  protected _nombreCliente: string;
+  protected _coste: number;
+  protected _productos: Array<Producto>;
 
-    constructor(_id: string, _nombreCliente: string, _coste: number, _productos: Array<Producto>) {
-      this._id = _id;
-      this._nombreCliente = _nombreCliente;
-      this._coste = _coste;
-      this._productos = _productos;
-    }
+  constructor(_id: string, _nombreCliente: string, _coste: number, _productos: Array<Producto>) {
+    this._id = _id;
+    this._nombreCliente = _nombreCliente;
+    this._coste = _coste;
+    this._productos = _productos;
+  }
 
-    get getId() {
-      return this._id;
-    }
-    get getCliente() {
-      return this._nombreCliente;
-    }
-    get getProductos() {
-      return this._productos;
-    }
-  
-    todoCompra() {
-      return `ID: ${this._id}, 
+  get getId() {
+    return this._id;
+  }
+  get getCliente() {
+    return this._nombreCliente;
+  }
+  get getProductos() {
+    return this._productos;
+  }
+
+  todoCompra() {
+    return `ID: ${this._id}, 
         : nombreCliente: ${this._nombreCliente}, 
         coste: ${this._coste},
         productos:  ${this._productos}`;
-    }
   }
+}
 
 
 export class Empleado extends Persona {
-  public _puesto: string;
+  protected _puesto: string;
+  protected _ventas: number;
+  protected _horas: number;
   constructor(
     id: string,
     nombre: string,
@@ -134,30 +137,25 @@ export class Empleado extends Persona {
     telefono: number,
     email: string,
     puesto: string,
+    ventas: number,
+    horas: number,
   ) {
     super(id, nombre, direccion, telefono, email);
     this._puesto = puesto;
+    this._ventas = ventas;
+    this._horas = horas;
   }
   get puesto() {
     return this._puesto;
   }
-
-  get salario() {
-    switch (this._puesto) {
-      case "Vendedor":
-        return 800;
-      case "Comercial":
-        return 900;
-      case "Transporte":
-        return 850;
-    }
-    return 0;
+  get ventas() {
+    return this._ventas;
   }
-  override todo() {
-    return `${super.todo()},\n    Salario: ${this.salario}, \n    Puesto: ${this.puesto
-      }`;
+  get salario(){
+    return this._horas *= 9
   }
 }
+
 
 // Tipos
 
@@ -181,4 +179,6 @@ export type tEmpleado = {
   telefono: number | null;
   email: string | null;
   puesto: string | null;
+  ventas: number | null;
+  horas: number | null;
 };
