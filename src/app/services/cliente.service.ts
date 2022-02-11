@@ -15,6 +15,10 @@ export class ClienteService {
     return this.http.get(this.baseUrl);
   }
 
+  getClienteId(id: string): Observable<any> {
+    return this.http.get(this.baseUrl + '/' + id);
+  }
+
   deleteCliente(id: any): Observable<any> {
     return this.http.delete(this.baseUrl + '/delete/' + id, {responseType: 'text'})
   }

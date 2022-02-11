@@ -27,7 +27,6 @@ export class CrearEmpleadoComponent implements OnInit {
         numero: ['', Validators.required],
         telefono: ['', Validators.required],
         email: ['', Validators.required],
-        puesto: ['', Validators.required],
         ventas: ['', Validators.required],
         horas: ['', Validators.required]
       })
@@ -46,7 +45,6 @@ export class CrearEmpleadoComponent implements OnInit {
       numero: this.empleadoForm.get('numero')?.value,
       telefono: this.empleadoForm.get('telefono')?.value,
       email: this.empleadoForm.get('email')?.value,
-      puesto: this.empleadoForm.get('puesto')?.value,
       ventas: this.empleadoForm.get('ventas')?.value,
       horas: this.empleadoForm.get('horas')?.value,
     }
@@ -69,7 +67,6 @@ export class CrearEmpleadoComponent implements OnInit {
         numero: data[0]._direccion.numero,
         telefono: data[0]._telefono,
         email: data[0]._email,
-        puesto: data[0]._puesto,
         ventas: data[0]._ventas,
         horas: data[0]._horas
       })

@@ -51,6 +51,11 @@ export class ClientesComponent implements OnInit {
     this._clienteService.deleteCliente(id). subscribe(data => {
         console.log(data);
         this.ngOnInit();
+        this._snackBar.open('Cliente eliminado correctamente', '', {
+          duration: 1500,
+          horizontalPosition: 'center',
+          verticalPosition: 'bottom'
+        })
       },
         error => console.log(error));
   }

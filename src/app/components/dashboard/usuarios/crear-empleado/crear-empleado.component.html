@@ -12,7 +12,7 @@
                         <input matInput autocomplete="off" formControlName="id">
                     </mat-form-field>
                 </mat-grid-tile>
-                <mat-grid-tile [colspan]="3" [rowspan]="7">
+                <mat-grid-tile [colspan]="3" [rowspan]="8">
                     <img src="./assets/img/usuario.png" width="250" height="250">
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="1" [rowspan]="1">
@@ -47,12 +47,6 @@
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="1" [rowspan]="1">
                     <mat-form-field class="ancho">
-                        <mat-label>Puesto</mat-label>
-                        <input matInput autocomplete="off" formControlName="puesto">
-                    </mat-form-field>
-                </mat-grid-tile>
-                <mat-grid-tile [colspan]="1" [rowspan]="1">
-                    <mat-form-field class="ancho">
                         <mat-label>NºVentas</mat-label>
                         <input matInput type="number" autocomplete="off" formControlName="ventas">
                     </mat-form-field>
@@ -60,7 +54,7 @@
                 <mat-grid-tile [colspan]="1" [rowspan]="1">
                     <mat-form-field class="ancho">
                         <mat-label>NºHoras</mat-label>
-                        <input matInput type="number" max="240" autocomplete="off" formControlName="horas">
+                        <input matInput type="number" min="0" max="240" autocomplete="off" formControlName="horas">
                     </mat-form-field>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="1" [rowspan]="1">

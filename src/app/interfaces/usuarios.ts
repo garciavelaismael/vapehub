@@ -127,7 +127,6 @@ export class Compra {
 
 
 export class Empleado extends Persona {
-  protected _puesto: string;
   protected _ventas: number;
   protected _horas: number;
   constructor(
@@ -136,23 +135,29 @@ export class Empleado extends Persona {
     direccion: { calle: string; numero: number },
     telefono: number,
     email: string,
-    puesto: string,
     ventas: number,
     horas: number,
   ) {
     super(id, nombre, direccion, telefono, email);
-    this._puesto = puesto;
     this._ventas = ventas;
     this._horas = horas;
-  }
-  get puesto() {
-    return this._puesto;
   }
   get ventas() {
     return this._ventas;
   }
-  get salario(){
-    return this._horas *= 9
+  get salario(): number {
+    let salario: number;
+    let base: number = this._horas * 8;
+    if (this._ventas > 5) {
+      salario = base * 1.02
+    } else if (this._ventas > 10) {
+      salario = base * 1.03
+    } else if (this._ventas > 20) {
+      salario = base * 1.05
+    } else {
+      salario = base
+    }
+    return Math.round(salario)
   }
 }
 
@@ -178,7 +183,6 @@ export type tEmpleado = {
   numero: number;
   telefono: number | null;
   email: string | null;
-  puesto: string | null;
   ventas: number | null;
   horas: number | null;
 };

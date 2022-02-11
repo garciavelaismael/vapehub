@@ -1,10 +1,11 @@
 <div class="container">
     <mat-toolbar>
-        <span>Crear Clientes</span>
+        <span *ngIf="isAddMode">Crear Clientes</span>
+        <span *ngIf="!isAddMode">Editar Cliente</span>
     </mat-toolbar>
 
     <mat-card style="margin-top: 10px;">
-        <form [formGroup]="clienteForm">
+        <form [formGroup]="clienteForm" (ngSubmit)="onSubmit()">
             <mat-grid-list cols="4" rowHeight="70px">
                 <mat-grid-tile [colspan]="1" [rowspan]="1">
                     <mat-form-field class="ancho">
@@ -13,7 +14,8 @@
                     </mat-form-field>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="3" [rowspan]="7">
-                    <img src="./assets/img/usuario.png" width="250" height="250">
+                    <img *ngIf="isAddMode" src="./assets/img/usuario.png" width="250" height="250">
+                    <img *ngIf="!isAddMode" src="./assets/img/edit.png" width="250" height="250">
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="1" [rowspan]="1">
                     <mat-form-field class="ancho">
@@ -53,7 +55,7 @@
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="1" [rowspan]="1">
                     <button routerLink="/dashboard/clientes" mat-raised-button style="margin-right: 20px;">Volver</button>
-                    <button type="submit" (click)="addCliente()" [disabled]="clienteForm.invalid" mat-raised-button color="primary">Aceptar</button>
+                    <button type="submit" [disabled]="clienteForm.invalid" mat-raised-button color="primary">Aceptar</button>
                 </mat-grid-tile>
             </mat-grid-list>
         </form>
