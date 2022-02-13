@@ -22,7 +22,7 @@
 
 · Explicación proyecto.
 
-## TECNOLOGIES
+## TECNOLOGIES 👨‍💻
 
 - Angular
 - Node JS
