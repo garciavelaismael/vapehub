@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
@@ -13,19 +13,21 @@ import { ClienteService } from 'src/app/services/cliente.service';
 })
 export class CrearClienteComponent implements OnInit {
   clienteForm!: FormGroup;
-  id!: string | null;
+  id!: string;
   isAddMode!: boolean;
 
-  constructor(private _fb: FormBuilder,
+  constructor(
+    private _fb: FormBuilder,
     private _clienteService: ClienteService,
     private _router: Router,
     private _aRouter: ActivatedRoute,
-    private _snackBar: MatSnackBar) {}
+    private _snackBar: MatSnackBar
+  ) { }
 
   ngOnInit(): void {
-    this.id = this._aRouter.snapshot.paramMap.get('id')
+    this.id = this._aRouter.snapshot.params['id'];
     this.isAddMode = !this.id;
-  
+
     this.clienteForm = this._fb.group({
       id: ['', Validators.required],
       nombre: ['', Validators.required],
@@ -37,54 +39,42 @@ export class CrearClienteComponent implements OnInit {
     });
 
     if (!this.isAddMode) {
-      this._clienteService.getClienteId(this.id!)
-          .pipe(first())
-          .subscribe(x => this.clienteForm.patchValue(x));
+      this.inputCliente();
+    }
   }
-}
 
-  onSubmit(){
+  onSubmit() {
     if (this.isAddMode) {
       this.addCliente();
-  } else {
+    } else {
       this.editCliente();
-  } 
+    }
   }
 
-  private addCliente() {
+  addCliente() {
     this._clienteService.addCliente(this.clienteForm.value)
-            .pipe(first())
-            .subscribe({
-                next: () => {
-                    this._router.navigate(['/dashboard/clientes']);
-                }
-            });
+      .pipe(first())
+      .subscribe();
   }
 
-  private editCliente() {
+  inputCliente() {
+    this._clienteService.getClienteId(this.id).subscribe(data => {
+      console.log(data);
+      this.clienteForm.setValue({
+        id: data._id,
+        nombre: data._nombre,
+        calle: data._direccion.calle,
+        numero: data._direccion.numero,
+        telefono: data._telefono,
+        email: data._email,
+        socio: data._socio,
+      })
+    })
+  }
+
+  editCliente() {
     this._clienteService.editCliente(this.id!, this.clienteForm.value)
-        .pipe(first())
-        .subscribe({
-            next: () => {
-              this._router.navigate(['/dashboard/clientes']);
-            }
-        });
-}
-  
-////  editCliente() {
-//    if (this.id !== null) {
-//      this._clienteService.getCliente().subscribe(data => {
-//        this.clienteForm.setValue({
-//          id: this.id,
-//          nombre: data[0]._nombre,
-//          calle: data[0]._direccion.calle,
-//          numero: data[0]._direccion.numero,
-//          telefono: data[0]._telefono,
-//          email: data[0]._email,
-//          socio: data[0]._socio,
-//        })
-//      })
-//    }
-//  }
-//
+      .pipe(first())
+      .subscribe();
+  }
 }

@@ -42,11 +42,10 @@ export class Persona {
     Telefono: ${this._telefono}, 
     Email : ${this._email}`;
   }
-  
+
 }
 
 export class Cliente extends Persona {
-  public _carrito: Array<Producto>;
   public _socio: boolean;
   constructor(
     id: string,
@@ -55,40 +54,12 @@ export class Cliente extends Persona {
     telefono: number,
     email: string,
     socio: boolean,
-    carrito: Array<Producto>
   ) {
     super(id, nombre, direccion, telefono, email);
-    this._carrito = carrito;
     this._socio = socio;
-  }
-  get carrito() {
-    return this._carrito;
   }
   get socio() {
     return this._socio;
-  }
-
-  agregarProducto(producto: Producto) {
-    this._carrito.push(producto)
-  }
-
-  buscarProducto(id: string): Producto | undefined {
-    for (const producto of this._carrito) {
-      if (producto.id === id) {
-        return producto;
-      }
-    }
-    return
-  }
-
-  limpiarCarrito() {
-    this._carrito.length = 0;
-  }
-
-  eliminarProducto(producto: Producto) {
-    this._carrito.splice(this._carrito.indexOf(producto), 1);
-    console.log("Se ha eliminado el producto!");
-
   }
 }
 
@@ -161,6 +132,20 @@ export class Empleado extends Persona {
   }
 }
 
+export class Salario {
+  public _id: string;
+  public _nombre: string;
+  public _salario: number
+
+  public constructor(
+    id: string,
+    nombre: string,
+    salario: number,) {
+    this._id = id
+    this._nombre = nombre
+    this._salario = salario
+  }
+}
 
 // Tipos
 
@@ -186,3 +171,23 @@ export type tEmpleado = {
   ventas: number | null;
   horas: number | null;
 };
+
+export type tEmpleado2 = {
+  _id: string;
+  _nombre: string;
+  _direccion: {
+    calle: string;
+    numero: number;
+  };
+  _telefono: number;
+  _email: string;
+  _ventas: number;
+  _horas: number;
+};
+
+export type tSalario = {
+  _id: string | null;
+  _nombre: string | null;
+  _salario: number | null;
+};
+

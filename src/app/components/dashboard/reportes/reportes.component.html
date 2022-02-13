@@ -1,5 +1,11 @@
 <div class="container">
-    <mat-toolbar>
-      <span>Reportes</span>
-    </mat-toolbar>
+  <mat-toolbar>
+    <span>Reportes&nbsp;</span>
+    <mat-icon>leaderboard</mat-icon>
+  </mat-toolbar>
 </div>
+<br>
+<mat-card id="salario" class="mat-elevation-z10">
+  <highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions" style="height: 400px; display: block">
+  </highcharts-chart>
+</mat-card>

@@ -4,8 +4,12 @@
         "redirect": "/dashboard"
     },
     {
-        "nombre": "Productos",
-        "redirect": "/dashboard/productos"
+        "nombre": "Líquidos",
+        "redirect": "/dashboard/liquidos"
+    },
+    {
+        "nombre": "Dispositivos",
+        "redirect": "/dashboard/dispositivos"
     },
     {
         "nombre": "Clientes",

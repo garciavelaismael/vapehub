@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { first } from 'rxjs';
 import { Cliente } from 'src/app/interfaces/usuarios';
 import { ClienteService } from 'src/app/services/cliente.service';
 
@@ -30,11 +31,13 @@ export class ClientesComponent implements OnInit {
     private _router: Router) { }
 
   ngOnInit(): void {
-    this._clienteService.getCliente().subscribe(data => {
-      this.listClientes = data,
-        this.dataSource = new MatTableDataSource(this.listClientes);
-      this.loading = false;
-    })
+    this._clienteService.getCliente()
+      .pipe((first()))
+      .subscribe(data => {
+        this.listClientes = data,
+          this.dataSource = new MatTableDataSource(this.listClientes);
+        this.loading = false;
+      })
   }
 
   ngAfterViewInit() {
@@ -47,8 +50,10 @@ export class ClientesComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  deleteCliente(id: number) {
-    this._clienteService.deleteCliente(id). subscribe(data => {
+  deleteCliente(id: string) {
+    this._clienteService.deleteCliente(id)
+      .pipe((first()))
+      .subscribe(data => {
         console.log(data);
         this.ngOnInit();
         this._snackBar.open('Cliente eliminado correctamente', '', {

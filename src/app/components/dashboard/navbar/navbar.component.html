@@ -1,12 +1,13 @@
 <mat-toolbar color="primary">
   <span>VapeHub</span>
+  <mat-icon>vaping_rooms</mat-icon>
   <span class="example-spacer"></span>
   <button mat-button *ngFor="let item of menu" [routerLink]="item.redirect">{{ item.nombre }}</button>
   <span class="example-spacer"></span>
-  <button (click)="openCarrito()" mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+  <button routerLink="/dashboard/compra" mat-icon-button class="example-icon">
     <mat-icon>shopping_cart</mat-icon>
   </button>
-  <button routerLink="/logout" mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+  <button routerLink="/logout" mat-icon-button class="example-icon">
     <mat-icon>logout</mat-icon>
   </button>
 </mat-toolbar>

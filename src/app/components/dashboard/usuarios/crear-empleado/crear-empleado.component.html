@@ -1,48 +1,53 @@
 <div class="container">
     <mat-toolbar>
-        <span>Crear Empleado</span>
+        <span *ngIf="isAddMode">Crear Empleado</span>
+        <span *ngIf="!isAddMode">Editar Empleado</span>
     </mat-toolbar>
 
     <mat-card style="margin-top: 10px;">
-        <form [formGroup]="empleadoForm">
+        <form [formGroup]="empleadoForm" (ngSubmit)="onSubmit()">
             <mat-grid-list cols="4" rowHeight="70px">
                 <mat-grid-tile [colspan]="1" [rowspan]="1">
                     <mat-form-field class="ancho">
                         <mat-label>DNI</mat-label>
-                        <input matInput autocomplete="off" formControlName="id">
+                        <input matInput type="text" autocomplete="off" placeholder="12341234A" minlength="9"
+                            maxlength="9" formControlName="id">
                     </mat-form-field>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="3" [rowspan]="8">
-                    <img src="./assets/img/usuario.png" width="250" height="250">
+                    <img *ngIf="isAddMode" src="./assets/img/usuario.png" width="250" height="250">
+                    <img *ngIf="!isAddMode" src="./assets/img/edit.png" width="300" height="300">
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="1" [rowspan]="1">
                     <mat-form-field class="ancho">
                         <mat-label>Nombre</mat-label>
-                        <input matInput autocomplete="off" formControlName="nombre">
+                        <input matInput type="text" autocomplete="off" formControlName="nombre">
                     </mat-form-field>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="1" [rowspan]="1">
                     <mat-form-field class="ancho">
                         <mat-label>Calle</mat-label>
-                        <input matInput autocomplete="off" formControlName="calle">
+                        <input matInput type="text" autocomplete="off" formControlName="calle">
                     </mat-form-field>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="1" [rowspan]="1">
                     <mat-form-field class="ancho">
                         <mat-label>Número</mat-label>
-                        <input matInput autocomplete="off" formControlName="numero">
+                        <input matInput type="number" min="1" max="999" autocomplete="off" formControlName="numero">
                     </mat-form-field>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="1" [rowspan]="1">
                     <mat-form-field class="ancho">
                         <mat-label>Teléfono</mat-label>
-                        <input matInput autocomplete="off" formControlName="telefono">
+                        <span matPrefix>+34 &nbsp;</span>
+                        <input matInput type="tel" placeholder="123123123" minlength="9" maxlength="9"
+                            autocomplete="off" formControlName="telefono">
                     </mat-form-field>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="1" [rowspan]="1">
                     <mat-form-field class="ancho">
                         <mat-label>Email</mat-label>
-                        <input matInput autocomplete="off" formControlName="email">
+                        <input matInput type="email" autocomplete="off" formControlName="email">
                     </mat-form-field>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="1" [rowspan]="1">
@@ -58,8 +63,10 @@
                     </mat-form-field>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="1" [rowspan]="1">
-                    <button routerLink="/dashboard/empleados" mat-raised-button style="margin-right: 20px;">Volver</button>
-                    <button type="submit" (click)="addEmpleado()" [disabled]="empleadoForm.invalid" mat-raised-button color="primary">Aceptar</button>
+                    <button routerLink="/dashboard/empleados" mat-raised-button
+                        style="margin-right: 20px;">Volver</button>
+                    <button type="submit" [disabled]="empleadoForm.invalid" mat-raised-button
+                        color="primary">Aceptar</button>
                 </mat-grid-tile>
             </mat-grid-list>
         </form>

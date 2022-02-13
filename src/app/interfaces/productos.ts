@@ -88,20 +88,20 @@ export class Dispositivo extends Producto {
 
 //exporta tipo dispositivo
 export type tDispositivo = {
-  _id: string | null;
-  _nombreProd: string | null;
-  _marca: string | null;
-  _potencia: number | null;
-  _bateria: number | null;
-  _coste: number | null;
+  id: string | null;
+  nombreProd: string | null;
+  marca: string | null;
+  potencia: number | null;
+  bateria: number | null;
+  coste: number | null;
 };
 
 //exporta tipo liquido
 export type tLiquido = {
-  _id: string | null;
-  _nombreProd: string | null;
-  _marca: string | null;
-  _sabor: string | null;
-  _nicotina: number | null;
-  _coste: number | null;
+  id: string | null;
+  nombreProd: string | null;
+  marca: string | null;
+  sabor: string | null;
+  nicotina: number | null;
+  coste: number | null;
 };

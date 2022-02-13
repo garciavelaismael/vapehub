@@ -1,6 +1,7 @@
 <div class="container">
   <mat-toolbar>
-    <span>Empleados</span>
+    <span>Empleados&nbsp;</span>
+    <mat-icon>person</mat-icon>
     <div class="example-spacer"></div>
     <button mat-raised-button color="primary" (click)="addEmpleado()">Agregar</button>
   </mat-toolbar>
@@ -40,12 +41,12 @@
           <th mat-header-cell *matHeaderCellDef>Email</th>
           <td mat-cell *matCellDef="let empleados">{{ empleados._email }}</td>
         </ng-container>
-    
+
         <ng-container matColumnDef="ventas">
           <th mat-header-cell *matHeaderCellDef>Ventas</th>
           <td mat-cell *matCellDef="let empleados">{{ empleados._ventas }}</td>
         </ng-container>
-    
+
         <ng-container matColumnDef="horas">
           <th mat-header-cell *matHeaderCellDef>Horas</th>
           <td mat-cell *matCellDef="let empleados">{{ empleados._horas }}</td>

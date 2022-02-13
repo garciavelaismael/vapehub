@@ -15,6 +15,14 @@ export class EmpleadoService {
     return this.http.get(this.baseUrl);
   }
 
+  getSalario(): Observable<any> {
+    return this.http.get(this.baseUrl + '/salario');
+  }
+
+  getEmpleadoId(id: string): Observable<any> {
+    return this.http.get(this.baseUrl + '/' + id);
+  }
+
   deleteEmpleado(id: any): Observable<any> {
     return this.http.delete(this.baseUrl + '/delete/' + id, {responseType: 'text'})
   }

@@ -21,7 +21,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list'; 
 import { MatSelectModule } from '@angular/material/select'; 
 import { MatTabsModule } from '@angular/material/tabs'; 
-import { MatBottomSheetModule } from '@angular/material/bottom-sheet'; 
+import { HighchartsChartModule } from 'highcharts-angular';
 
 @NgModule({
   declarations: [],
@@ -44,7 +44,7 @@ import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
     MatGridListModule,
     MatSelectModule,
     MatTabsModule,
-    MatBottomSheetModule
+    HighchartsChartModule
   ],
   exports : [
     ReactiveFormsModule,
@@ -64,7 +64,7 @@ import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
     MatGridListModule,
     MatSelectModule,
     MatTabsModule,
-    MatBottomSheetModule
+    HighchartsChartModule
   ]
 })
 export class SharedModule { }

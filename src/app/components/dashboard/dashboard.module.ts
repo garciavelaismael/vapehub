@@ -11,7 +11,9 @@ import { ClientesComponent } from './usuarios/clientes/clientes.component';
 import { EmpleadosComponent } from './usuarios/empleados/empleados.component';
 import { CrearClienteComponent } from './usuarios/crear-cliente/crear-cliente.component';
 import { CrearEmpleadoComponent } from './usuarios/crear-empleado/crear-empleado.component';
-
+import { LiquidosComponent } from './productos/liquidos/liquidos.component';
+import { DispositivosComponent } from './productos/dispositivos/dispositivos.component';
+import { CompraComponent } from './compra/compra.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,10 @@ import { CrearEmpleadoComponent } from './usuarios/crear-empleado/crear-empleado
     EmpleadosComponent,
     CrearClienteComponent,
     CrearEmpleadoComponent,
-  ],
+    LiquidosComponent,
+    DispositivosComponent,
+    CompraComponent,
+],
   imports: [
     CommonModule,
     DashboardRoutingModule,

@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
+import { first } from 'rxjs/operators';
 import { tEmpleado } from 'src/app/interfaces/usuarios';
 import { EmpleadoService } from 'src/app/services/empleado.service';
 
@@ -11,67 +12,71 @@ import { EmpleadoService } from 'src/app/services/empleado.service';
   styleUrls: ['./crear-empleado.component.css']
 })
 export class CrearEmpleadoComponent implements OnInit {
-  empleadoForm: FormGroup;
-  id!: string | null;
-  
-  constructor(private fb: FormBuilder,
+  empleadoForm!: FormGroup;
+  id!: string;
+  isAddMode!: boolean;
+
+  constructor(
+    private _fb: FormBuilder,
     private _empleadoService: EmpleadoService,
-    private router: Router,
-    private aRouter: ActivatedRoute,
-    private _changeDetectorRefs: ChangeDetectorRef,
-    private _snackBar: MatSnackBar) {
-      this.empleadoForm = this.fb.group({
-        id: ['', Validators.required],
-        nombre: ['', Validators.required],
-        calle: ['', Validators.required],
-        numero: ['', Validators.required],
-        telefono: ['', Validators.required],
-        email: ['', Validators.required],
-        ventas: ['', Validators.required],
-        horas: ['', Validators.required]
-      })
-    this.id = this.aRouter.snapshot.paramMap.get('id')
-  }
-  
+    private _router: Router,
+    private _aRouter: ActivatedRoute,
+    private _snackBar: MatSnackBar
+  ) { }
+
   ngOnInit(): void {
-    this.editEmpleado();
+    this.id = this._aRouter.snapshot.params['id'];
+    this.isAddMode = !this.id;
+
+    this.empleadoForm = this._fb.group({
+      id: ['', Validators.required],
+      nombre: ['', Validators.required],
+      calle: ['', Validators.required],
+      numero: ['', Validators.required],
+      telefono: ['', Validators.required],
+      email: ['', Validators.required],
+      ventas: ['', Validators.required],
+      horas: ['', Validators.required]
+    });
+
+    if (!this.isAddMode) {
+      this.inputEmpleado();
+    }
+  }
+
+  onSubmit() {
+    if (this.isAddMode) {
+      this.addEmpleado();
+    } else {
+      this.editEmpleado();
+    }
   }
 
   addEmpleado() {
-    const EMPLEADO: tEmpleado = {
-      id: this.empleadoForm.get('id')?.value,
-      nombre: this.empleadoForm.get('nombre')?.value,
-      calle: this.empleadoForm.get('calle')?.value,
-      numero: this.empleadoForm.get('numero')?.value,
-      telefono: this.empleadoForm.get('telefono')?.value,
-      email: this.empleadoForm.get('email')?.value,
-      ventas: this.empleadoForm.get('ventas')?.value,
-      horas: this.empleadoForm.get('horas')?.value,
-    }
-    if(this.id !== null){
-      this._empleadoService.editEmpleado(this.id, EMPLEADO).subscribe();    
-      this.router.navigate(['/dashboard/empleados']);
-    } else {
-      this._empleadoService.addEmpleado(EMPLEADO).subscribe();    
-      this.empleadoForm.reset();
-    }
+    this._empleadoService.addEmpleado(this.empleadoForm.value)
+      .pipe(first())
+      .subscribe();
   }
-  
-  editEmpleado(){
-    if (this.id !== null)
-    this._empleadoService.getEmpleado().subscribe(data => {
+
+  inputEmpleado() {
+    this._empleadoService.getEmpleadoId(this.id).subscribe(data => {
+      console.log(data);
       this.empleadoForm.setValue({
-        id: this.id,
-        nombre: data[0]._nombre,
-        calle: data[0]._direccion.calle,
-        numero: data[0]._direccion.numero,
-        telefono: data[0]._telefono,
-        email: data[0]._email,
-        ventas: data[0]._ventas,
-        horas: data[0]._horas
+        id: data._id,
+        nombre: data._nombre,
+        calle: data._direccion.calle,
+        numero: data._direccion.numero,
+        telefono: data._telefono,
+        email: data._email,
+        ventas: data._ventas,
+        horas: data._horas,
       })
     })
   }
-  
-}
 
+  editEmpleado() {
+    this._empleadoService.editEmpleado(this.id!, this.empleadoForm.value)
+      .pipe(first())
+      .subscribe();
+  }
+}

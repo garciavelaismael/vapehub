@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { Menu } from 'src/app/interfaces/menu';
 import { MenuService } from 'src/app/services/menu.service';
 
@@ -11,7 +10,7 @@ import { MenuService } from 'src/app/services/menu.service';
 export class NavbarComponent implements OnInit {
   menu: Menu[] = [];
 
-  constructor(private _menuService: MenuService, private _bottomSheet: MatBottomSheet) { }
+  constructor(private _menuService: MenuService) { }
 
   ngOnInit(): void {
     this.cargarMenu();
@@ -23,6 +22,5 @@ export class NavbarComponent implements OnInit {
     })
   }
 
-  openCarrito(){
-  }
+
 }
