@@ -56,6 +56,11 @@ export class CompraComponent implements OnInit {
           }
           this._compraService.addCompra(COMPRA)
             .subscribe()
+            this._snackBar.open('Liquido comprado', '', {
+              duration: 1500,
+              horizontalPosition: 'center',
+              verticalPosition: 'bottom'
+            });
           this.compraForm.reset()
         })
     } if (this.id < '100') {
@@ -72,6 +77,11 @@ export class CompraComponent implements OnInit {
           }
           this._compraService.addCompra(COMPRA)
             .subscribe()
+            this._snackBar.open('Dispositivo comprado', '', {
+              duration: 1500,
+              horizontalPosition: 'center',
+              verticalPosition: 'bottom'
+            });
           this.compraForm.reset()
         })
     }
