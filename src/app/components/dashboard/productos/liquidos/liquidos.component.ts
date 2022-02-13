@@ -3,7 +3,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { Liquido } from 'src/app/interfaces/productos';
 import { LiquidoService } from 'src/app/services/liquido.service';
@@ -26,8 +25,7 @@ dataSource!: MatTableDataSource<any>;
 @ViewChild(MatSort) sort!: MatSort;
 
 constructor(private _liquidoService: LiquidoService,
-  private _snackBar: MatSnackBar,
-  private _router: Router) { }
+  private _snackBar: MatSnackBar) { }
 
 ngOnInit(): void {
   this._liquidoService.getLiquido()

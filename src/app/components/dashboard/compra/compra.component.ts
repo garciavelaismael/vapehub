@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { first } from 'rxjs/operators';
 import { tCompra } from 'src/app/interfaces/compra';
 import { Compra } from 'src/app/interfaces/usuarios';
 import { CompraService } from 'src/app/services/compra.service';
@@ -43,20 +42,38 @@ export class CompraComponent implements OnInit {
   addCompra() {
     this.id = this.compraForm.get('idp')?.value
 
-    this._liquidoService.getLiquidoId(this.id)
-      .subscribe(data => {
-        console.log(data);
-        this.coste = data._coste
+    if (this.id >= '100') {
+      this._liquidoService.getLiquidoId(this.id)
+        .subscribe(data => {
+          console.log(data);
+          this.coste = data._coste
 
-        const COMPRA: tCompra = {
-          id: this.compraForm.get('id')?.value,
-          idCliente: this.compraForm.get('dni')?.value,
-          idProducto: this.compraForm.get('idp')?.value,
-          coste: this.coste
-        }
-        this._compraService.addCompra(COMPRA)
-        .subscribe()
-        this.compraForm.reset()
-      })
+          const COMPRA: tCompra = {
+            id: this.compraForm.get('id')?.value,
+            idCliente: this.compraForm.get('dni')?.value,
+            idProducto: this.compraForm.get('idp')?.value,
+            coste: this.coste
+          }
+          this._compraService.addCompra(COMPRA)
+            .subscribe()
+          this.compraForm.reset()
+        })
+    } if (this.id < '100') {
+      this._dispositivoService.getDispositivoId(this.id)
+        .subscribe(data => {
+          console.log(data);
+          this.coste = data._coste
+
+          const COMPRA: tCompra = {
+            id: this.compraForm.get('id')?.value,
+            idCliente: this.compraForm.get('dni')?.value,
+            idProducto: this.compraForm.get('idp')?.value,
+            coste: this.coste
+          }
+          this._compraService.addCompra(COMPRA)
+            .subscribe()
+          this.compraForm.reset()
+        })
+    }
   }
 }

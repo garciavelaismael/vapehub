@@ -1,7 +1,5 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef, SimpleChanges } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { first } from 'rxjs';
@@ -21,13 +19,8 @@ export class ClientesComponent implements OnInit {
   displayedColumns = ['id', 'nombre', 'calle', 'numero', 'telefono', 'email', 'socio', 'acciones'];
   dataSource!: MatTableDataSource<any>;
 
-
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
-
   constructor(private _clienteService: ClienteService,
     private _snackBar: MatSnackBar,
-    private _changeDetectorRefs: ChangeDetectorRef,
     private _router: Router) { }
 
   ngOnInit(): void {
@@ -35,14 +28,10 @@ export class ClientesComponent implements OnInit {
       .pipe((first()))
       .subscribe(data => {
         this.listClientes = data,
-          this.dataSource = new MatTableDataSource(this.listClientes);
+        this.dataSource = new MatTableDataSource(this.listClientes);
+
         this.loading = false;
       })
-  }
-
-  ngAfterViewInit() {
-    //this.dataSource.paginator = this.paginator;
-    //this.dataSource.sort = this.sort;
   }
 
   applyFilter(event: Event) {

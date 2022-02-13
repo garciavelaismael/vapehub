@@ -20,9 +20,9 @@ export class ClienteService {
   }
 
   deleteCliente(id: any): Observable<any> {
-    return this.http.delete(this.baseUrl + '/delete/' + id, {responseType: 'text'})
+    return this.http.delete(this.baseUrl + '/delete/' + id, { responseType: 'text' })
   }
-  
+
   addCliente(cliente: tCliente): Observable<any> {
     return this.http.post(this.baseUrl + '/addCliente', cliente)
   }
@@ -31,5 +31,5 @@ export class ClienteService {
     return this.http.put(this.baseUrl + '/update/' + id, cliente)
   }
 
-  
+
 }

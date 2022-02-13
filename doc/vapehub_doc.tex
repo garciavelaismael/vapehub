@@ -1,0 +1,1495 @@
+\documentclass[a4paper]{article} %Formato de plantilla que vamos a utilizar
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage[a4paper, total={6.5in, 9.5in}]{geometry}
+\usepackage{graphicx} % Insertar imágenes
+\usepackage{hyperref} % Insertar url
+\usepackage{listings} % Insertar código
+\usepackage[table,xcdraw]{xcolor} % Detección de colores
+\usepackage{fancyhdr} % Crear cabeceros
+
+% Declaración de colores
+\definecolor{blue}{HTML}{03aaf9}
+
+% Declaración de variables
+\newcommand{\logoPunta}{img/LogoPuntaDelVerde.png} % Logo del punta
+\newcommand{\logoPractica}{img/vape.png} % Logo de la práctica
+\newcommand{\nombrePractica}{VapeHub} % Nombre de la práctica
+\newcommand{\numPractica}{Angular} % Número de la práctica
+\newcommand{\fecha}{14/02/2022} % Fecha de entrega
+
+\lstdefinelanguage{Typescript}{
+keywords={typeof, new, true, false, catch, function, return, null, catch, get, witch, var, if, else},
+keywordstyle=\color{blue}\bfseries,
+ndkeywords={class, export, boolean, throw, implements, import, this},
+ndkeywordstyle=\color{darkgray}\bfseries,
+identifierstyle=\color{black},
+sensitive=false,
+comment=[l]{//},
+morecomment=[s]{/*}{*/},
+commentstyle=\color{purple}\ttfamily,
+stringstyle=\color{red}\ttfamily,
+morestring=[b]',
+morestring=[b]"
+}
+
+\lstset{
+language=Typescript,
+extendedchars=true,
+basicstyle=\footnotesize\ttfamily,
+showstringspaces=false,
+showspaces=false,
+numbers=left,
+numberstyle=\footnotesize,
+numbersep=9pt,
+tabsize=2,
+breaklines=true,
+showtabs=false,
+captionpos=b
+}
+
+% Header y footer
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\includegraphics[width=15cm]{\logoPunta}}
+\rfoot{\thepage}
+\lfoot{Ismael García Vela\par\fecha}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{1pt}
+\setlength\headheight{40pt} % quitar aviso cabecero
+
+% Comienzo del documento
+\begin{document}
+% Portada
+\begin{titlepage}
+	\centering
+	\vspace*{7cm}
+	\includegraphics[width=0.3\textwidth]
+	{\logoPractica}\par\vspace{1cm}
+	{\LARGE\textbf{Proyecto \numPractica}\par\vspace{0.2cm}}
+	{\Huge\bfseries\textcolor{gray}{\nombrePractica}}\par\vspace{1cm}
+\end{titlepage}
+
+% Índice
+\tableofcontents
+
+% Documentación
+\newpage
+\section{Introducción}
+Proyecto de una aplicación que trata datos mostrados de forma visual gracias a Angular
+usando la librería de componentes de Angular Material. Es una aplicación destinada
+a un empleado el cuál es administrador o es encargado de un punto de venta.
+\par\vspace{0.5cm}
+Esta alojada en Heroku desplegada por el repositorio de github. Usa una API la cuál
+conecta con una base de datos alojada en Mongo Atlas, desplegada en Heroku al igual que la APP.
+\par\vspace{0.5cm}
+Primero veremos las clases y modelos usados, y ya luego pasaremos a la aplicación.
+\clearpage
+\section{Clases}
+\subsection{Persona}
+\subsubsection{Persona}
+\begin{lstlisting}[language=Typescript]
+	export class Persona {
+  protected _id: string;
+  protected _nombre: string;
+  protected _direccion: { calle: string; numero: number };
+  protected _telefono: number;
+  protected _email: string;
+  constructor(
+    id: string,
+    nombre: string,
+    direccion: { calle: string; numero: number },
+    telefono: number,
+    email: string,
+  ) {
+    this._id = id;
+    this._nombre = nombre;
+    this._direccion = direccion;
+    this._telefono = telefono;
+    this._email = email;
+  }
+  get id() {
+    return this._id;
+  }
+  get nombre() {
+    return this._nombre;
+  }
+  get direccion() {
+    return this._direccion;
+  }
+  get telefono() {
+    return this._telefono;
+  }
+  get email() {
+    return this._email;
+  }
+
+  todo() {
+    return `ID: ${this._id}, 
+    Nombre: ${this._nombre}, 
+    Direccion: ${this._direccion}, 
+    Telefono: ${this._telefono}, 
+    Email : ${this._email}`;
+  }
+}
+\end{lstlisting}\clearpage
+\subsubsection{Cliente}
+\begin{lstlisting}[language=Typescript]
+	import { Persona } from "./persona";
+export class Cliente extends Persona {
+  protected _socio: boolean;
+  constructor(
+    id: string,
+    nombre: string,
+    direccion: { calle: string; numero: number },
+    telefono: number,
+    email: string,
+    socio: boolean,
+  ) {
+    super(id, nombre, direccion, telefono, email);
+    this._socio = socio;
+  }
+  get socio() {
+    return this._socio;
+  }
+}
+\end{lstlisting}
+\subsubsection{Empleado}
+\begin{lstlisting}[language=Typescript]
+	import { Persona } from "./persona";
+export class Empleado extends Persona {
+  protected _ventas: number;
+  protected _horas: number;
+  constructor(
+    id: string,
+    nombre: string,
+    direccion: { calle: string; numero: number },
+    telefono: number,
+    email: string,
+    ventas: number,
+    horas: number,
+  ) {
+    super(id, nombre, direccion, telefono, email);
+    this._ventas = ventas;
+    this._horas = horas;
+  }
+  get ventas() {
+    return this._ventas;
+  }
+  salario(): number {
+    let salario: number;
+    let base: number = this._horas * 8;
+    if (this._ventas > 5) { salario = base * 1.02 } 
+    else if (this._ventas > 10) {
+      salario = base * 1.03
+    } else if (this._ventas > 20) {
+      salario = base * 1.05
+    } else {
+      salario = base
+    }
+    return Math.round(salario)
+  }
+}
+\end{lstlisting}\clearpage
+\subsection{Producto}
+\subsubsection{Producto}
+\begin{lstlisting}[language=Typescript]
+	export class Producto {
+		protected _id: string;
+		protected _nombreProd: string;
+		protected _marca: string;
+		protected _coste: number;
+	  
+		constructor(id: string, nombreProd: string, marca: string, coste: number) {
+		  this._id = id;
+		  this._nombreProd = nombreProd;
+		  this._marca = marca;
+		  this._coste = coste;
+		}
+	  
+		get id() {
+		  return this._id;
+		}
+		get nombreProd() {
+		  return this._nombreProd;
+		}
+		get marca() {
+		  return this._marca;
+		}
+		get coste() {
+		  return this._coste;
+		}
+	  
+		todoProd() {
+		  return `ID: ${this._id}, 
+			Nombre de producto: ${this._nombreProd}, 
+			Marca: ${this._marca}
+			coste ${this._coste}`;
+		}
+	  }	  
+\end{lstlisting}
+\subsubsection{Líquido}
+\begin{lstlisting}
+	export class Liquido extends Producto {
+
+  protected _sabor: string;
+  protected _nicotina: number;
+
+  constructor(
+    id: string,
+    nombreProd: string,
+    marca: string,
+    sabor: string,
+    nicotina: number,
+    coste: number
+  ) {
+    super(id, nombreProd, marca, coste);
+
+    this._sabor = sabor;
+    this._nicotina = nicotina;
+  }
+  get sabor() {
+    return this._sabor;
+  }
+  get nicotina() {
+    return this._nicotina;
+  }
+}
+\end{lstlisting}\clearpage
+\subsubsection{Dispositivo}
+\begin{lstlisting}
+	export class Dispositivo extends Producto {
+  protected _potencia: number;
+  protected _bateria: number;
+
+  constructor(
+    id: string,
+    nombreProd: string,
+    marca: string,
+    potencia: number,
+    bateria: number,
+    coste: number
+  ) {
+    super(id, nombreProd, marca, coste);
+
+    this._potencia = potencia;
+    this._bateria = bateria;
+  }
+  get potencia() {
+    return this._potencia;
+  }
+  get bateria() {
+    return this._bateria;
+  }
+}
+\end{lstlisting}\clearpage
+\section{Compra}
+\begin{lstlisting}[language=Typescript]
+	export class Compra {
+    protected _id: string;
+    protected _idCliente: string;
+    protected _coste: number;
+    protected _idProducto: string;
+
+    constructor(id: string, idCliente: string, coste: number, idProducto: string) {
+      this._id = id;
+      this._idCliente = idCliente;
+      this._coste = coste;
+      this._idProducto = idProducto;
+    }
+    get getId() {
+      return this._id;
+    }
+    get getCliente() {
+      return this._idCliente;
+    }
+    get getProductos() {
+      return this._idProducto;
+    }
+  
+    todoCompra() {
+      return `ID: ${this._id}, 
+        : nombreCliente: ${this._idCliente}, 
+        coste: ${this._coste},
+        productos:  ${this._idProducto}`;
+    }
+  }
+\end{lstlisting}\clearpage
+\section{Tipos}
+\subsection{Persona}
+\begin{lstlisting}[language=Typescript]
+export type tCliente = {
+  id: string | null;
+  nombre: string | null;
+  calle: string;
+  numero: number;
+  telefono: number | null;
+  email: string | null;
+  socio: Boolean | null;
+};
+
+export type tEmpleado = {
+  id: string | null;
+  nombre: string | null;
+  calle: string;
+  numero: number;
+  telefono: number | null;
+  email: string | null;
+  ventas: number | null;
+  horas: number | null;
+};
+
+export type tEmpleado2 = {
+  _id: string;
+  _nombre: string;
+  _direccion: {
+    calle: string;
+    numero: number;
+  };
+  _telefono: number;
+  _email: string;
+  _ventas: number;
+  _horas: number;
+};
+
+export type tSalario = {
+  _id: string | null;
+  _nombre: string | null;
+  _salario: number | null;
+};
+\end{lstlisting}
+\subsection{Producto}
+\begin{lstlisting}[language=Typescript]
+export type tDispositivo = {
+  id: string | null;
+  nombreProd: string | null;
+  marca: string | null;
+  potencia: number | null;
+  bateria: number | null;
+  coste: number | null;
+};
+export type tLiquido = {
+  id: string | null;
+  nombreProd: string | null;
+  marca: string | null;
+  sabor: string | null;
+  nicotina: number | null;
+  coste: number | null;
+};
+\end{lstlisting}\clearpage
+\subsection{Compra}
+\begin{lstlisting}[language=Typescript]
+export type tCompra = {
+	id: string | null;
+	idCliente: string | null;
+	idProducto: string | null;
+	coste: number | null;
+	};
+\end{lstlisting}\clearpage
+\section{Rutas}
+Funciones usadas en el routing:
+\begin{itemize}
+	\item Listar:
+\begin{lstlisting}[language=Typescript]
+	// Listar empleados
+  private getEmpleados = async (req: Request, res: Response) => {
+    await db.conectarBD()
+      .then(async (mensaje) => {
+        const valor = req.params.id
+        console.log(mensaje)
+        const query = await EmpleadoDB.find();
+        res.json(query)
+      })
+      .catch((mensaje) => {
+        res.send(mensaje)
+      })
+    db.desconectarBD()
+  }
+
+  // Listar clientes
+  private getClientes = async (req: Request, res: Response) => {
+    await db.conectarBD()
+      .then(async (mensaje) => {
+        const valor = req.params.id
+        console.log(mensaje)
+        const query = await ClienteDB.find();
+        res.json(query)
+      })
+      .catch((mensaje) => {
+        res.send(mensaje)
+      })
+    db.desconectarBD()
+  }
+
+  // Listar dispositivos
+  private getDispositivos = async (req: Request, res: Response) => {
+    await db.conectarBD()
+      .then(async (mensaje) => {
+        const valor = req.params.id
+        console.log(mensaje)
+        const query = await DispositivoDB.find();
+        res.json(query)
+      })
+      .catch((mensaje) => {
+        res.send(mensaje)
+      })
+    db.desconectarBD()
+  }
+
+  // Listar liquidos
+  private getLiquidos = async (req: Request, res: Response) => {
+    await db.conectarBD()
+      .then(async (mensaje) => {
+        const valor = req.params.id
+        console.log(mensaje)
+        const query = await LiquidoDB.find();
+        res.json(query)
+      })
+      .catch((mensaje) => {
+        res.send(mensaje)
+      })
+    db.desconectarBD()
+  }
+\end{lstlisting}\clearpage
+	\item Añadir:
+\begin{lstlisting}[language=Typescript]
+	// Add empleado
+  private addEmpleado = async (req: Request, res: Response) => {
+    const { id, nombre, calle, numero, telefono, email, ventas, horas } = req.body
+    await db.conectarBD()
+    const dSchema = {
+      _id: id,
+      _nombre: nombre,
+      _direccion: { calle: calle, numero: numero },
+      _telefono: telefono,
+      _email: email,
+      _ventas: ventas,
+      _horas: horas
+    }
+    const oSchema = new EmpleadoDB(dSchema)
+    await oSchema.save()
+      .then((doc: any) => res.send('Has guardado el archivo:\n' + doc))
+      .catch((err: any) => res.send('Error: ' + err))
+
+    db.desconectarBD()
+  }
+
+  // Add cliente:
+  private addCliente = async (req: Request, res: Response) => {
+    const { id, nombre, calle, numero, telefono, email, socio } = req.body
+    await db.conectarBD()
+    const dSchema = {
+      _id: id,
+      _nombre: nombre,
+      _direccion: { calle: calle, numero: numero },
+      _telefono: telefono,
+      _email: email,
+      _socio: socio
+    }
+    const oSchema = new ClienteDB(dSchema)
+    await oSchema.save()
+      .then((doc: any) => res.send('Has guardado el archivo:\n' + doc))
+      .catch((err: any) => res.send('Error: ' + err))
+
+    db.desconectarBD()
+  }
+
+  // Add compra
+  private addCompra = async (req: Request, res: Response) => {
+    const { id, idCliente, idProducto, coste } = req.body
+    let fecha: Date = new Date()
+    await db.conectarBD()
+    const dSchema = {
+      _id: id,
+      _idCliente: idCliente,
+      _idProducto: idProducto,
+      _coste: coste,
+      _fecha: fecha
+    }
+    const oSchema = new CompraDB(dSchema)
+    await oSchema.save()
+      .then((doc: any) => res.send('Has guardado el archivo:\n' + doc))
+      .catch((err: any) => res.send('Error: ' + err))
+
+    db.desconectarBD()
+  }
+\end{lstlisting}\clearpage
+	\item Actualizar:
+\begin{lstlisting}[language=Typescript]
+	// Actualizar empleado
+  private updateEmpleado = async (req: Request, res: Response) => {
+    await db.conectarBD()
+    const id = req.params.id
+    const { nombre, calle, numero, telefono, email, ventas, horas } = req.body
+    await EmpleadoDB.findOneAndUpdate(
+      { _id: id },
+      {
+        _id: id,
+        _nombre: nombre,
+        _direccion: { calle: calle, numero: numero },
+        _telefono: telefono,
+        _email: email,
+        _ventas: ventas,
+        _horas: horas
+      },
+      {
+        new: true,
+        runValidators: true
+      }
+    )
+      .then((doc: any) => res.send('Has guardado el archivo:\n' + doc))
+      .catch((err: any) => res.send('Error: ' + err))
+
+    await db.desconectarBD()
+  }
+
+  // Actualizar cliente
+  private updateCliente = async (req: Request, res: Response) => {
+    await db.conectarBD()
+    const id = req.params.id
+    const { nombre, calle, numero, telefono, email, socio } = req.body
+    await ClienteDB.findOneAndUpdate(
+      { _id: id },
+      {
+        _id: id,
+        _nombre: nombre,
+        _direccion: { calle: calle, numero: numero },
+        _telefono: telefono,
+        _email: email,
+        _socio: socio,
+      },
+      {
+        new: true,
+        runValidators: true
+      }
+    )
+      .then((doc: any) => res.send('Has guardado el archivo:\n' + doc))
+      .catch((err: any) => res.send('Error: ' + err))
+
+    await db.desconectarBD()
+  }
+\end{lstlisting}\clearpage
+	\item Eliminar:
+\begin{lstlisting}[language=Typescript]
+	// Eliminar empleado
+	private delEmpleado = async (req: Request, res: Response) => {
+		await db.conectarBD()
+		
+		const id = req.params.id
+    await EmpleadoDB.findOneAndDelete({ _id: id })
+	.then((doc: any) => res.send('Eliminado correctamente.'))
+      .catch((err: any) => res.send('Error: ' + err))
+	  
+	  await db.desconectarBD()
+  }
+  
+  // Eliminar cliente
+  private delCliente = async (req: Request, res: Response) => {
+	  await db.conectarBD()
+
+	  const id = req.params.id
+	  await ClienteDB.findOneAndDelete({ _id: id })
+      .then((doc: any) => res.send('Eliminado correctamente.'))
+      .catch((err: any) => res.send('Error: ' + err))
+	  
+	  await db.desconectarBD()
+	  }
+\end{lstlisting}\clearpage
+		\item Buscar ID:
+\begin{lstlisting}[language=Typescript]
+	// Buscar empleado
+	private getEmpleadoId = async (req: Request, res: Response) => {
+	await db.conectarBD()
+	  .then(async (mensaje) => {
+		const id = req.params.id
+		console.log(mensaje)
+		const query = await EmpleadoDB.findOne({ _id: id });
+		res.json(query)
+	  })
+	  .catch((mensaje) => {
+		res.send(mensaje)
+	  })
+	await db.desconectarBD()
+	}
+	
+	// Buscar cliente
+	private getClienteId = async (req: Request, res: Response) => {
+	await db.conectarBD()
+	  .then(async (mensaje) => {
+		const id = req.params.id
+		console.log(mensaje)
+		const query = await ClienteDB.findOne({ _id: id });
+		res.json(query)
+	  })
+	  .catch((mensaje) => {
+		res.send(mensaje)
+	  })
+	await db.desconectarBD()
+	}
+	
+	// Buscar dispositivo
+	private getDispositivoId = async (req: Request, res: Response) => {
+	await db.conectarBD()
+	  .then(async (mensaje) => {
+		const id = req.params.id
+		console.log(mensaje)
+		const query = await DispositivoDB.findOne({ _id: id });
+		res.json(query)
+	  })
+	  .catch((mensaje) => {
+		res.send(mensaje)
+	  })
+	await db.desconectarBD()
+	}
+	
+	// Buscar liquido
+	private getLiquidoId = async (req: Request, res: Response) => {
+	await db.conectarBD()
+	  .then(async (mensaje) => {
+		const id = req.params.id
+		console.log(mensaje)
+		const query = await LiquidoDB.findOne({ _id: id });
+		res.json(query)
+	  })
+	  .catch((mensaje) => {
+		res.send(mensaje)
+	  })
+	await db.desconectarBD()
+	}
+\end{lstlisting}\clearpage
+	\item Calcular salario:
+\begin{lstlisting}[language=Typescript]
+	// Calcular salario
+  private getSalario = async (req: Request, res: Response) => {
+    let tmpEmpleado: Empleado
+    let dEmpleado: tEmpleado2
+    let arraySalario: Array<tSalario> = []
+    console.log('hola');
+    
+      await db.conectarBD()
+        .then(async (mensaje) => {
+          console.log(mensaje)
+          const query = await EmpleadoDB.find({});
+          for (dEmpleado of query) {
+            tmpEmpleado = new Empleado(
+              dEmpleado._id,
+              dEmpleado._nombre,
+              dEmpleado._direccion,
+              dEmpleado._telefono,
+              dEmpleado._email,
+              dEmpleado._ventas,
+              dEmpleado._horas)
+
+            let salario = tmpEmpleado.salario()
+            
+            let oSalario: tSalario = {
+              _id: null,
+              _nombre: null,
+              _salario: null
+            }
+            oSalario._id = tmpEmpleado.id
+            oSalario._nombre = tmpEmpleado.nombre
+            oSalario._salario = salario
+            arraySalario.push(oSalario)
+          }
+          
+          res.json(arraySalario)
+        })
+        .catch((mensaje) => {
+          res.send(mensaje)
+        })
+    await db.desconectarBD()
+  }
+\end{lstlisting}\clearpage
+\end{itemize}
+Rutas usadas:
+\begin{lstlisting}[language=Typescript]
+	// RUTAS
+	misRutas() {
+	  // Listar
+	  this._router.get('/empleados/salario', this.getSalario)
+	  this._router.get('/empleados', this.getEmpleados)
+	  this._router.get('/clientes', this.getClientes)
+	  this._router.get('/empleados/:id', this.getEmpleadoId)
+	  this._router.get('/clientes/:id', this.getClienteId)
+	  this._router.get('/dispositivos', this.getDispositivos)
+	  this._router.get('/liquidos', this.getLiquidos)
+	  this._router.get('/dispositivos/:id', this.getDispositivoId)
+	  this._router.get('/liquidos/:id', this.getLiquidoId)
+	  // Crear
+	  this._router.post('/empleados/addEmpleado', this.addEmpleado)
+	  this._router.post('/clientes/addCliente', this.addCliente)
+	  this._router.post('/addCompra', this.addCompra)
+	  // Actualizar
+	  this._router.put('/empleados/update/:id', this.updateEmpleado)
+	  this._router.put('/clientes/update/:id', this.updateCliente)
+	  // Eliminar
+	  this._router.delete('/empleados/delete/:id', this.delEmpleado)
+	  this._router.delete('/clientes/delete/:id', this.delCliente)
+	}
+  }
+\end{lstlisting}\clearpage
+\section{Aplicación}
+\subsection{Servicios}
+\subsubsection{Cliente}
+\begin{lstlisting}[language=Typescript]
+	export class ClienteService {
+  baseUrl = 'https://api-vapehub.herokuapp.com/clientes'
+
+  constructor(private http: HttpClient) { }
+
+  getCliente(): Observable<any> {
+    return this.http.get(this.baseUrl);
+  }
+
+  getClienteId(id: string): Observable<any> {
+    return this.http.get(this.baseUrl + '/' + id);
+  }
+
+  deleteCliente(id: any): Observable<any> {
+    return this.http.delete(this.baseUrl + '/delete/' + id, {responseType: 'text'})
+  }
+  
+  addCliente(cliente: tCliente): Observable<any> {
+    return this.http.post(this.baseUrl + '/addCliente', cliente)
+  }
+
+  editCliente(id: string, cliente: tCliente): Observable<any> {
+    return this.http.put(this.baseUrl + '/update/' + id, cliente)
+  }
+}
+\end{lstlisting}
+\subsubsection{Empleado}
+\begin{lstlisting}[language=Typescript]
+	export class EmpleadoService {
+  baseUrl = 'https://api-vapehub.herokuapp.com/empleados'
+
+  constructor(private http: HttpClient) { }
+
+  getEmpleado(): Observable<any> {
+    return this.http.get(this.baseUrl);
+  }
+
+  getSalario(): Observable<any> {
+    return this.http.get(this.baseUrl + '/salario');
+  }
+
+  getEmpleadoId(id: string): Observable<any> {
+    return this.http.get(this.baseUrl + '/' + id);
+  }
+
+  deleteEmpleado(id: any): Observable<any> {
+    return this.http.delete(this.baseUrl + '/delete/' + id, {responseType: 'text'})
+  }
+  
+  addEmpleado(empleado: tEmpleado): Observable<any> {
+    return this.http.post(this.baseUrl + '/addEmpleado', empleado)
+  }
+
+  editEmpleado(id: string, empleado: tEmpleado): Observable<any> {
+    return this.http.put(this.baseUrl + '/update/' + id, empleado)
+  }
+}
+\end{lstlisting}\clearpage
+\subsubsection{Líquido}
+\begin{lstlisting}[language=Typescript]
+	export class LiquidoService {
+		baseUrl = 'https://api-vapehub.herokuapp.com/liquidos'
+	  
+		constructor(private http: HttpClient) { }
+	  
+		getLiquido(): Observable<any> {
+		  return this.http.get(this.baseUrl);
+		}
+	  
+		getLiquidoId(id: string): Observable<any> {
+		  return this.http.get(this.baseUrl + '/' + id);
+		}
+	}
+\end{lstlisting}
+\subsubsection{Dispositivo}
+\begin{lstlisting}[language=Typescript]
+	export class DispositivoService {
+  baseUrl = 'https://api-vapehub.herokuapp.com/dispositivos'
+
+  constructor(private http: HttpClient) { }
+
+  getDispositivo(): Observable<any> {
+    return this.http.get(this.baseUrl);
+  }
+
+  getDispositivoId(id: string): Observable<any> {
+    return this.http.get(this.baseUrl + '/' + id);
+  }
+}
+\end{lstlisting}
+\subsubsection{Compra}
+\begin{lstlisting}[language=Typescript]
+	export class CompraService {
+		baseUrl = 'https://api-vapehub.herokuapp.com'
+	  
+		constructor(private http: HttpClient) { }
+	  
+		addCompra(compra: tCompra): Observable<any> {
+		  return this.http.post(this.baseUrl + '/addCompra', compra)
+		}
+	}
+\end{lstlisting}
+\subsubsection{Menú dinámico}
+\begin{lstlisting}[language=Typescript]
+	export class MenuService {
+
+		constructor(private http: HttpClient) { }
+	  
+		getMenu(): Observable<Menu[]> {
+		  return this.http.get<Menu[]>('./assets/data/menu.json');
+		}
+	}
+\end{lstlisting}\clearpage
+\subsection{Explicación menú}
+Cómo se ve en el servicio llama a un documento .json el cuál hace que la barra de navegación
+sea dinámica y de fácil extensión.\par\vspace{0.3cm}
+Ese documento incluye lo siguiente:
+\begin{lstlisting}
+	[
+    {
+        "nombre": "Dashboard",
+        "redirect": "/dashboard"
+    },
+    {
+        "nombre": "Liquidos",
+        "redirect": "/dashboard/liquidos"
+    },
+    {
+        "nombre": "Dispositivos",
+        "redirect": "/dashboard/dispositivos"
+    },
+    {
+        "nombre": "Clientes",
+        "redirect": "/dashboard/clientes"
+    },
+    {
+        "nombre": "Empleados",
+        "redirect": "/dashboard/empleados"
+    },
+    {
+        "nombre": "Reportes",
+        "redirect": "/dashboard/reportes"
+    }
+]
+\end{lstlisting}
+Y esos campos son importados de una interfaz menu:
+\begin{lstlisting}[language=Typescript]
+	export interface Menu {
+    nombre: string,
+    redirect: string
+}
+\end{lstlisting}
+En el componente de la navbar importamos el servicio y la interfaz y cargamos el menu:
+\begin{lstlisting}[language=Typescript]
+	export class NavbarComponent implements OnInit {
+	  menu: Menu[] = [];
+	
+	  constructor(private _menuService: MenuService) { }
+	
+	  ngOnInit(): void {
+		this.cargarMenu();
+	  }
+	
+	  cargarMenu(){
+		this._menuService.getMenu().subscribe(data => {
+		  this.menu = data;
+		})
+	  }
+	}
+\end{lstlisting}
+Por último en el html de la navbar recorremos los datos y los insertamos en botones:
+\begin{lstlisting}
+	<button mat-button *ngFor="let item of menu" [routerLink]="item.redirect">
+	{{ item.nombre }}
+	</button>
+\end{lstlisting}\clearpage
+\subsection{Routing}
+\subsubsection{app-routing}
+Redirige al login directamente, y si pones cualquier ruta inexistente.\par\vspace{0.3cm}
+Se crea la ruta padre llamada dashboard.
+\begin{lstlisting}[language=Typescript]
+	const routes: Routes = [
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent},
+  { path: 'dashboard', loadChildren: () => import('./components/dashboard/dashboard.module').then(x => x.DashboardModule) },
+  { path: '**', redirectTo: 'login', pathMatch: 'full' }
+];
+\end{lstlisting}
+\subsubsection{dashboard-routing}
+Rutas hijas:
+\begin{lstlisting}[language=Typescript]
+	const routes: Routes = [
+		{
+		  path: '', component: DashboardComponent, children: [
+			{ path: '', component: InicioComponent },
+			{ path: 'clientes', component: ClientesComponent },
+			{ path: 'liquidos', component: LiquidosComponent },
+			{ path: 'dispositivos', component: DispositivosComponent },
+			{ path: 'empleados', component: EmpleadosComponent },
+			{ path: 'reportes', component: ReportesComponent },
+			{ path: 'crear-cliente', component: CrearClienteComponent },
+			{ path: 'crear-cliente/:id', component: CrearClienteComponent },
+			{ path: 'crear-empleado', component: CrearEmpleadoComponent },
+			{ path: 'crear-empleado/:id', component: CrearEmpleadoComponent },
+			{ path: 'compra', component: CompraComponent },
+		  ]
+		}
+	  ];
+\end{lstlisting}\clearpage
+\subsection{Módulos}
+\subsubsection{DashboardModule}
+\begin{lstlisting}[language=Typescript]
+	@NgModule({
+  declarations: [
+    DashboardComponent,
+    InicioComponent,
+    NavbarComponent,
+    ReportesComponent,
+    ClientesComponent,
+    EmpleadosComponent,
+    CrearClienteComponent,
+    CrearEmpleadoComponent,
+    LiquidosComponent,
+    DispositivosComponent,
+    CompraComponent,
+],
+  imports: [
+    CommonModule,
+    DashboardRoutingModule,
+    SharedModule
+  ]
+})
+\end{lstlisting}
+\subsubsection{SharedModule}
+Este SharedModule es para separar los modulos que son importados de librerías de componentes, como
+los de Angular Material y los de HighCharts.
+\begin{lstlisting}[language=Typescript]
+	@NgModule({
+  declarations: [],
+  imports: [ CommonModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatSnackBarModule,
+    MatProgressSpinnerModule,
+    MatToolbarModule,
+    MatIconModule,
+    HttpClientModule,
+    MatTableModule,
+    MatTooltipModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatCardModule,
+    MatGridListModule,
+    MatSelectModule,
+    MatTabsModule,
+    HighchartsChartModule ],
+  exports : [ ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatSnackBarModule,
+    MatProgressSpinnerModule,
+    MatToolbarModule,
+    MatIconModule,
+    HttpClientModule,
+    MatTableModule,
+    MatTooltipModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatCardModule,
+    MatGridListModule,
+    MatSelectModule,
+    MatTabsModule,
+    HighchartsChartModule ]
+})
+\end{lstlisting}\clearpage
+\subsection{Componentes}
+\subsubsection{ClientesComponent}
+\begin{lstlisting}[language=Typescript]
+	export class ClientesComponent implements OnInit {
+
+  loading = true;
+  listClientes: Cliente[] = [];
+
+  displayedColumns = ['id', 'nombre', 'calle', 'numero', 'telefono', 'email', 'socio', 'acciones'];
+  dataSource!: MatTableDataSource<any>;
+
+  constructor(private _clienteService: ClienteService,
+    private _snackBar: MatSnackBar,
+    private _router: Router) { }
+
+  ngOnInit(): void {
+    this._clienteService.getCliente()
+      .pipe((first()))
+      .subscribe(data => {
+        this.listClientes = data,
+          this.dataSource = new MatTableDataSource(this.listClientes);
+        this.loading = false;
+      })
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  deleteCliente(id: string) {
+    this._clienteService.deleteCliente(id)
+      .pipe((first()))
+      .subscribe(data => {
+        console.log(data);
+        this.ngOnInit();
+        this._snackBar.open('Cliente eliminado correctamente', '', {
+          duration: 1500,
+          horizontalPosition: 'center',
+          verticalPosition: 'bottom'
+        })
+      },
+        error => console.log(error));
+  }
+
+  addCliente() {
+    this._router.navigate(['/dashboard/crear-cliente']);
+  }
+
+  editCliente(id: number) {
+    this._router.navigate(['/dashboard/crear-cliente', id]);
+    console.log(id);
+  }
+}
+\end{lstlisting}\clearpage
+\subsubsection{EmpleadosComponent}
+\begin{lstlisting}[language=Typescript]
+	export class EmpleadosComponent implements OnInit {
+
+		loading = true;
+		listEmpleados: Empleado[] = [];
+	  
+		displayedColumns = ['id', 'nombre', 'calle', 'numero', 'telefono', 'email', 'ventas', 'horas','acciones'];
+		dataSource!: MatTableDataSource<any>;
+	  
+		constructor(private _empleadoService: EmpleadoService,
+		  private _snackBar: MatSnackBar,
+		  private _router: Router) { }
+	  
+		ngOnInit(): void {
+		  this._empleadoService.getEmpleado().subscribe(data => {
+			this.listEmpleados = data,
+			  this.dataSource = new MatTableDataSource(this.listEmpleados);
+			this.loading = false;
+		  })
+		}
+	  
+		applyFilter(event: Event) {
+		  const filterValue = (event.target as HTMLInputElement).value;
+		  this.dataSource.filter = filterValue.trim().toLowerCase();
+		}
+	  
+		deleteEmpleado(id: number) {
+		  this._empleadoService.deleteEmpleado(id). subscribe(data => {
+			  console.log(data);
+			  this.ngOnInit();
+			},
+			  error => console.log(error));
+		}
+	  
+		addEmpleado() {
+		  this._router.navigate(['/dashboard/crear-empleado']);
+		}
+	  
+		editEmpleado(id: number) {
+		  this._router.navigate(['/dashboard/crear-empleado', id]);
+		  console.log(id);
+		}
+	  }
+\end{lstlisting}\clearpage
+\subsubsection{CrearClienteComponent}
+\begin{lstlisting}[language=Typescript]
+	export class CrearClienteComponent implements OnInit {
+  clienteForm!: FormGroup;
+  id!: string;
+  isAddMode!: boolean;
+
+  constructor(
+    private _fb: FormBuilder,
+    private _clienteService: ClienteService,
+    private _aRouter: ActivatedRoute,
+    private _snackBar: MatSnackBar
+  ) { }
+
+  ngOnInit(): void {
+    this.id = this._aRouter.snapshot.params['id'];
+    this.isAddMode = !this.id;
+
+    this.clienteForm = this._fb.group({
+      id: ['', Validators.required],
+      nombre: ['', Validators.required],
+      calle: ['', Validators.required],
+      numero: ['', Validators.required],
+      telefono: ['', Validators.required],
+      email: ['', Validators.required],
+      socio: ['', Validators.required]
+    });
+
+    if (!this.isAddMode) {
+      this.inputCliente();
+    }
+  }
+
+  onSubmit() {
+    if (this.isAddMode) {
+      this.addCliente();
+    } else {
+      this.editCliente();
+    }
+  }
+
+  addCliente() {
+    this._clienteService.addCliente(this.clienteForm.value)
+      .pipe(first())
+      .subscribe();
+  }
+
+  inputCliente() {
+    this._clienteService.getClienteId(this.id).subscribe(data => {
+      console.log(data);
+      this.clienteForm.setValue({
+        id: data._id,
+        nombre: data._nombre,
+        calle: data._direccion.calle,
+        numero: data._direccion.numero,
+        telefono: data._telefono,
+        email: data._email,
+        socio: data._socio,
+      })
+    })
+  }
+
+  editCliente() {
+    this._clienteService.editCliente(this.id!, this.clienteForm.value)
+      .pipe(first())
+      .subscribe();
+  }
+}
+\end{lstlisting}\clearpage
+\subsubsection{CrearEmpleadoComponent}
+\begin{lstlisting}[language=Typescript]
+	export class CrearEmpleadoComponent implements OnInit {
+		empleadoForm!: FormGroup;
+		id!: string;
+		isAddMode!: boolean;
+	  
+		constructor(
+		  private _fb: FormBuilder,
+		  private _empleadoService: EmpleadoService,
+		  private _aRouter: ActivatedRoute,
+		  private _snackBar: MatSnackBar
+		) { }
+	  
+		ngOnInit(): void {
+		  this.id = this._aRouter.snapshot.params['id'];
+		  this.isAddMode = !this.id;
+	  
+		  this.empleadoForm = this._fb.group({
+			id: ['', Validators.required],
+			nombre: ['', Validators.required],
+			calle: ['', Validators.required],
+			numero: ['', Validators.required],
+			telefono: ['', Validators.required],
+			email: ['', Validators.required],
+			ventas: ['', Validators.required],
+			horas: ['', Validators.required]
+		  });
+	  
+		  if (!this.isAddMode) {
+			this.inputEmpleado();
+		  }
+		}
+	  
+		onSubmit() {
+		  if (this.isAddMode) {
+			this.addEmpleado();
+		  } else {
+			this.editEmpleado();
+		  }
+		}
+	  
+		addEmpleado() {
+		  this._empleadoService.addEmpleado(this.empleadoForm.value)
+			.pipe(first())
+			.subscribe();
+		}
+	  
+		inputEmpleado() {
+		  this._empleadoService.getEmpleadoId(this.id).subscribe(data => {
+			console.log(data);
+			this.empleadoForm.setValue({
+			  id: data._id,
+			  nombre: data._nombre,
+			  calle: data._direccion.calle,
+			  numero: data._direccion.numero,
+			  telefono: data._telefono,
+			  email: data._email,
+			  ventas: data._ventas,
+			  horas: data._horas,
+			})
+		  })
+		}
+	  
+		editEmpleado() {
+		  this._empleadoService.editEmpleado(this.id!, this.empleadoForm.value)
+			.pipe(first())
+			.subscribe();
+		}
+	}
+\end{lstlisting}\clearpage
+\subsubsection{LiquidosComponent}
+\begin{lstlisting}[language=Typescript]
+	export class LiquidosComponent implements OnInit {
+		loading = true;
+		listLiquidos: Liquido[] = [];
+		displayedColumns = ['id', 'nombre', 'marca', 'sabor', 'nicotina', 'coste'];
+		dataSource!: MatTableDataSource<any>;
+		
+		@ViewChild(MatPaginator) paginator!: MatPaginator;
+		@ViewChild(MatSort) sort!: MatSort;
+		
+		constructor(private _liquidoService: LiquidoService,
+		  private _snackBar: MatSnackBar) { }
+		
+		ngOnInit(): void {
+		  this._liquidoService.getLiquido()
+			.pipe((first()))
+			.subscribe(data => {
+			  this.listLiquidos = data,
+				this.dataSource = new MatTableDataSource(this.listLiquidos);
+			  this.loading = false;
+			})
+		}
+		
+		ngAfterViewInit() {
+		  //this.dataSource.paginator = this.paginator;
+		  //this.dataSource.sort = this.sort;
+		}
+		
+		applyFilter(event: Event) {
+		  const filterValue = (event.target as HTMLInputElement).value;
+		  this.dataSource.filter = filterValue.trim().toLowerCase();
+		}
+	}
+\end{lstlisting}
+\subsubsection{DispositivosComponent}
+\begin{lstlisting}[language=Typescript]
+	export class DispositivosComponent implements OnInit {
+		loading = true;
+		listDispositivos: Dispositivo[] = [];
+		displayedColumns = ['id', 'nombre', 'marca', 'bateria', 'potencia', 'coste'];
+		dataSource!: MatTableDataSource<any>;
+		
+		@ViewChild(MatPaginator) paginator!: MatPaginator;
+		@ViewChild(MatSort) sort!: MatSort;
+		
+		constructor(private _dispositivoService: DispositivoService,
+		  private _snackBar: MatSnackBar) { }
+		
+		ngOnInit(): void {
+		  this._dispositivoService.getDispositivo()
+			.pipe((first()))
+			.subscribe(data => {
+			  this.listDispositivos = data,
+				this.dataSource = new MatTableDataSource(this.listDispositivos);
+			  this.loading = false;
+			})
+		}
+		
+		ngAfterViewInit() {
+		  //this.dataSource.paginator = this.paginator;
+		  //this.dataSource.sort = this.sort;
+		}
+		
+		applyFilter(event: Event) {
+		  const filterValue = (event.target as HTMLInputElement).value;
+		  this.dataSource.filter = filterValue.trim().toLowerCase();
+		}
+	}
+\end{lstlisting}\clearpage
+\subsubsection{CompraComponent}
+\begin{lstlisting}[language=Typescript]
+	export class CompraComponent implements OnInit {
+		compraForm!: FormGroup;
+		id!: string;
+		idCliente: string = "";
+		listCompra: Compra[] = [];
+		coste!: number;
+	  
+		constructor(
+		  private _fb: FormBuilder,
+		  private _compraService: CompraService,
+		  private _liquidoService: LiquidoService,
+		  private _dispositivoService: DispositivoService,
+		  private _snackBar: MatSnackBar
+		) { }
+	  
+		ngOnInit(): void {
+		  this.compraForm = this._fb.group({
+			id: ['', Validators.required],
+			dni: ['', Validators.required],
+			idp: ['', Validators.required],
+		  })
+		}
+	  
+		onSubmit() {
+		  this.addCompra();
+		}
+	  
+		addCompra() {
+		  this.id = this.compraForm.get('idp')?.value
+	  
+		  if (this.id >= '100') {
+			this._liquidoService.getLiquidoId(this.id)
+			  .subscribe(data => {
+				console.log(data);
+				this.coste = data._coste
+	  
+				const COMPRA: tCompra = {
+				  id: this.compraForm.get('id')?.value,
+				  idCliente: this.compraForm.get('dni')?.value,
+				  idProducto: this.compraForm.get('idp')?.value,
+				  coste: this.coste
+				}
+				this._compraService.addCompra(COMPRA)
+				  .subscribe()
+				this.compraForm.reset()
+			  })
+		  } if (this.id < '100') {
+			this._dispositivoService.getDispositivoId(this.id)
+			  .subscribe(data => {
+				console.log(data);
+				this.coste = data._coste
+	  
+				const COMPRA: tCompra = {
+				  id: this.compraForm.get('id')?.value,
+				  idCliente: this.compraForm.get('dni')?.value,
+				  idProducto: this.compraForm.get('idp')?.value,
+				  coste: this.coste
+				}
+				this._compraService.addCompra(COMPRA)
+				  .subscribe()
+				this.compraForm.reset()
+			  })
+		  }
+		}
+	}	  
+\end{lstlisting}\clearpage
+\subsubsection{ReportesComponent}
+\begin{lstlisting}[language=Typescript]
+	export class ReportesComponent implements OnInit {
+		Highcharts: typeof Highcharts = Highcharts;
+		listSalario: Salario[] = []
+	  
+		chartOptions: any = {
+		  chart:
+		  {
+			backgroundColor: {
+			  linearGradient: [500, 500, 500, 500],
+			  stops: [
+				[0, 'rgb(255, 255, 255)'],
+			  ]
+			},
+			type: 'column'
+		  },
+		  title: {
+			text: ''
+		  },
+		  xAxis: {
+			categories: []
+		  },
+		  credits: {
+			enabled: false
+		  },
+		  series: [{
+			name: '',
+			data: []
+		  }]
+		};
+	  
+		constructor(private _empleadoService: EmpleadoService) { }
+	  
+		ngOnInit(): void {
+		  this.salarioEmpleado();
+		}
+	  
+		salarioEmpleado(){
+		  this._empleadoService.getSalario().subscribe((data) => {  
+			this.listSalario = data
+			this.listSalario.map((salario: any) => {
+			  return new Salario(salario._id, salario._nombre, salario._salario)
+			})
+			const dataSeries = this.listSalario.map((x: Salario) => x._salario)
+			const dataCategorias = this.listSalario.map((x: Salario) => x._nombre)
+			
+			this.chartOptions.title["text"] = "Salario de empleados"
+			this.chartOptions.series[0]["data"] = dataSeries
+			this.chartOptions.xAxis["categories"] = dataCategorias
+			this.chartOptions.series["name"] = "Empleados"
+	  
+			Highcharts.chart("salario", this.chartOptions)
+		  })
+		}
+	}
+\end{lstlisting}\clearpage
+\subsubsection{LoginComponent}
+\begin{lstlisting}[language=Typescript]
+	export class LoginComponent implements OnInit {
+		form: FormGroup;
+		loading = false;
+	  
+		constructor(private fb: FormBuilder, private _snackBar: MatSnackBar, private router: Router) {
+		  this.form = this.fb.group({
+			user: ['', Validators.required],
+			password: ['', Validators.required]
+		  })
+		}
+	  
+		ngOnInit(): void {
+		}
+	  
+		ingresar()  {
+	  
+		  const user = this.form.value.user;
+		  const password = this.form.value.password;
+	  
+		  if(user == 'ismael' && password == '1234') {
+			// Redireccion dashboard
+			this.fakeLoading();
+		  } else {
+			// Mostrar error
+			this.error();
+			this.form.reset()
+		  }
+		}
+		error() {
+		  this._snackBar.open('Usuario o password incorrecta', '', {
+			duration: 3000,
+			horizontalPosition: 'center',
+			verticalPosition: 'bottom'
+		  })
+		}
+		fakeLoading() {
+		  this.loading = true;
+		  setTimeout(() => {
+			// Redireccion dashboard
+			this.router.navigate(['dashboard'])
+		  }, 1500);
+		}
+	  }
+\end{lstlisting}\clearpage
+\end{document}

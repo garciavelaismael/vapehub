@@ -1,5 +1,3 @@
-import { Producto } from "./productos";
-
 export class Persona {
   public _id: string;
   public _nombre: string;
@@ -67,32 +65,31 @@ export class Cliente extends Persona {
 export class Compra {
 
   protected _id: string;
-  protected _nombreCliente: string;
+  protected _idCliente: string;
   protected _coste: number;
-  protected _productos: Array<Producto>;
+  protected _idProducto: string;
 
-  constructor(_id: string, _nombreCliente: string, _coste: number, _productos: Array<Producto>) {
-    this._id = _id;
-    this._nombreCliente = _nombreCliente;
-    this._coste = _coste;
-    this._productos = _productos;
+  constructor(id: string, idCliente: string, coste: number, idProducto: string) {
+    this._id = id;
+    this._idCliente = idCliente;
+    this._coste = coste;
+    this._idProducto = idProducto;
   }
 
   get getId() {
     return this._id;
   }
   get getCliente() {
-    return this._nombreCliente;
+    return this._idCliente;
   }
   get getProductos() {
-    return this._productos;
+    return this._idProducto;
   }
-
   todoCompra() {
     return `ID: ${this._id}, 
-        : nombreCliente: ${this._nombreCliente}, 
-        coste: ${this._coste},
-        productos:  ${this._productos}`;
+      : nombreCliente: ${this._idCliente}, 
+      coste: ${this._coste},
+      productos:  ${this._idProducto}`;
   }
 }
 

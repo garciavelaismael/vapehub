@@ -9,7 +9,8 @@
                 <mat-grid-tile [colspan]="1" [rowspan]="1">
                     <mat-form-field class="ancho">
                         <mat-label>Compra ID</mat-label>
-                        <input matInput autocomplete="off" formControlName="id">
+                        <input matInput type="text" autocomplete="off" placeholder="123456" minlength="6" maxlength="6"
+                            formControlName="id">
                     </mat-form-field>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="3" [rowspan]="4">
@@ -18,18 +19,20 @@
                 <mat-grid-tile [colspan]="1" [rowspan]="1">
                     <mat-form-field class="ancho">
                         <mat-label>DNI</mat-label>
-                        <input matInput autocomplete="off" formControlName="dni">
+                        <input matInput type="text" autocomplete="off" placeholder="12341234A" minlength="9"
+                            maxlength="9" formControlName="dni">
                     </mat-form-field>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="1" [rowspan]="1">
                     <mat-form-field class="ancho">
                         <mat-label>Producto ID</mat-label>
-                        <input matInput autocomplete="off" formControlName="idp">
+                        <input matInput minlength="3" maxlength="3" placeholder="001-005 | 101-105" autocomplete="off" formControlName="idp">
                     </mat-form-field>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="1" [rowspan]="1">
                     <button routerLink="../" mat-raised-button style="margin-right: 20px;">Volver</button>
-                    <button type="submit" [disabled]="compraForm.invalid" mat-raised-button color="primary">Aceptar</button>
+                    <button type="submit" [disabled]="compraForm.invalid" mat-raised-button
+                        color="primary">Aceptar</button>
                 </mat-grid-tile>
             </mat-grid-list>
         </form>

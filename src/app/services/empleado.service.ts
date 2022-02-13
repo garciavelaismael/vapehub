@@ -24,9 +24,9 @@ export class EmpleadoService {
   }
 
   deleteEmpleado(id: any): Observable<any> {
-    return this.http.delete(this.baseUrl + '/delete/' + id, {responseType: 'text'})
+    return this.http.delete(this.baseUrl + '/delete/' + id, { responseType: 'text' })
   }
-  
+
   addEmpleado(empleado: tEmpleado): Observable<any> {
     return this.http.post(this.baseUrl + '/addEmpleado', empleado)
   }

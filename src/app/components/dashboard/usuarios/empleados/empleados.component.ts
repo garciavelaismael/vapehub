@@ -1,7 +1,5 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Empleado } from 'src/app/interfaces/usuarios';
@@ -20,13 +18,8 @@ export class EmpleadosComponent implements OnInit {
   displayedColumns = ['id', 'nombre', 'calle', 'numero', 'telefono', 'email', 'ventas', 'horas','acciones'];
   dataSource!: MatTableDataSource<any>;
 
-
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
-
   constructor(private _empleadoService: EmpleadoService,
     private _snackBar: MatSnackBar,
-    private _changeDetectorRefs: ChangeDetectorRef,
     private _router: Router) { }
 
   ngOnInit(): void {
@@ -35,11 +28,6 @@ export class EmpleadosComponent implements OnInit {
         this.dataSource = new MatTableDataSource(this.listEmpleados);
       this.loading = false;
     })
-  }
-
-  ngAfterViewInit() {
-    //this.dataSource.paginator = this.paginator;
-    //this.dataSource.sort = this.sort;
   }
 
   applyFilter(event: Event) {
@@ -51,6 +39,11 @@ export class EmpleadosComponent implements OnInit {
     this._empleadoService.deleteEmpleado(id). subscribe(data => {
         console.log(data);
         this.ngOnInit();
+        this._snackBar.open('Empleado eliminado correctamente', '', {
+          duration: 1500,
+          horizontalPosition: 'center',
+          verticalPosition: 'bottom'
+        })
       },
         error => console.log(error));
   }

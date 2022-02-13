@@ -1,9 +1,8 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
-import { tEmpleado } from 'src/app/interfaces/usuarios';
 import { EmpleadoService } from 'src/app/services/empleado.service';
 
 @Component({
@@ -19,7 +18,6 @@ export class CrearEmpleadoComponent implements OnInit {
   constructor(
     private _fb: FormBuilder,
     private _empleadoService: EmpleadoService,
-    private _router: Router,
     private _aRouter: ActivatedRoute,
     private _snackBar: MatSnackBar
   ) { }
@@ -56,6 +54,12 @@ export class CrearEmpleadoComponent implements OnInit {
     this._empleadoService.addEmpleado(this.empleadoForm.value)
       .pipe(first())
       .subscribe();
+      this._snackBar.open('Empleado añadido correctamente', '', {
+        duration: 1500,
+        horizontalPosition: 'center',
+        verticalPosition: 'bottom'
+      })
+      this.empleadoForm.reset();
   }
 
   inputEmpleado() {
@@ -78,5 +82,10 @@ export class CrearEmpleadoComponent implements OnInit {
     this._empleadoService.editEmpleado(this.id!, this.empleadoForm.value)
       .pipe(first())
       .subscribe();
+      this._snackBar.open('Empleado editado correctamente', '', {
+        duration: 1500,
+        horizontalPosition: 'center',
+        verticalPosition: 'bottom'
+      });
   }
 }

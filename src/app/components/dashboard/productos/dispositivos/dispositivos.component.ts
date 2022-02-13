@@ -3,7 +3,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { Dispositivo } from 'src/app/interfaces/productos';
 import { DispositivoService } from 'src/app/services/dispositivo.service';
@@ -26,8 +25,7 @@ export class DispositivosComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
   
   constructor(private _dispositivoService: DispositivoService,
-    private _snackBar: MatSnackBar,
-    private _router: Router) { }
+    private _snackBar: MatSnackBar) { }
   
   ngOnInit(): void {
     this._dispositivoService.getDispositivo()

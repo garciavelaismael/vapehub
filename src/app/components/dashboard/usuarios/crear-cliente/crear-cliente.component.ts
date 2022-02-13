@@ -1,9 +1,8 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
-import { Cliente, tCliente } from 'src/app/interfaces/usuarios';
 import { ClienteService } from 'src/app/services/cliente.service';
 
 @Component({
@@ -19,7 +18,6 @@ export class CrearClienteComponent implements OnInit {
   constructor(
     private _fb: FormBuilder,
     private _clienteService: ClienteService,
-    private _router: Router,
     private _aRouter: ActivatedRoute,
     private _snackBar: MatSnackBar
   ) { }
@@ -55,6 +53,12 @@ export class CrearClienteComponent implements OnInit {
     this._clienteService.addCliente(this.clienteForm.value)
       .pipe(first())
       .subscribe();
+      this._snackBar.open('Cliente añadido correctamente', '', {
+        duration: 1500,
+        horizontalPosition: 'center',
+        verticalPosition: 'bottom'
+      })
+      this.clienteForm.reset();
   }
 
   inputCliente() {
@@ -76,5 +80,10 @@ export class CrearClienteComponent implements OnInit {
     this._clienteService.editCliente(this.id!, this.clienteForm.value)
       .pipe(first())
       .subscribe();
+      this._snackBar.open('Cliente editado correctamente', '', {
+        duration: 1500,
+        horizontalPosition: 'center',
+        verticalPosition: 'bottom'
+      });
   }
 }
