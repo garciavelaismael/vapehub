@@ -1,27 +1,33 @@
-# Cliente
+# APP VAPEHUB
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.2.2.
+- Aplicación para responsables de puntos de venta y herramienta de gestión de personas. 
 
-## Development server
+- Se pueden ver, eliminar, editar, añadir clientes y empleados.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+- Sólo se pueden ver los productos, ya que el stock y de más lo lleva la empresa responsable en los almacenes.
 
-## Code scaffolding
+- Se pueden hacer compras de productos y estas mandarlas a una base de datos que almacena cada una.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## CODE ✏️
 
-## Build
+· Carpeta **./src**
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- Esta incluye todo el código. 
 
-## Running unit tests
+· Carpeta **./src/app**
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+- Todos los componentes, servicios y más están dentro de esta.
 
-## Running end-to-end tests
+## DOC 📋
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+· Explicación proyecto.
 
-## Further help
+## TECNOLOGIES
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+- Angular
+- Node JS
+- MongoDB
+- TypeScript
+- Heroku
+
+> Ismael García Vela 22/11/21
