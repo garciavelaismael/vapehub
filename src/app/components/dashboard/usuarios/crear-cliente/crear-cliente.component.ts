@@ -53,12 +53,12 @@ export class CrearClienteComponent implements OnInit {
     this._clienteService.addCliente(this.clienteForm.value)
       .pipe(first())
       .subscribe();
-      this._snackBar.open('Cliente añadido correctamente', '', {
-        duration: 1500,
-        horizontalPosition: 'center',
-        verticalPosition: 'bottom'
-      })
-      this.clienteForm.reset();
+    this._snackBar.open('Cliente añadido correctamente', '', {
+      duration: 1500,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom'
+    })
+    this.clienteForm.reset();
   }
 
   inputCliente() {
@@ -80,10 +80,10 @@ export class CrearClienteComponent implements OnInit {
     this._clienteService.editCliente(this.id!, this.clienteForm.value)
       .pipe(first())
       .subscribe();
-      this._snackBar.open('Cliente editado correctamente', '', {
-        duration: 1500,
-        horizontalPosition: 'center',
-        verticalPosition: 'bottom'
-      });
+    this._snackBar.open('Cliente editado correctamente', '', {
+      duration: 1500,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom'
+    });
   }
 }

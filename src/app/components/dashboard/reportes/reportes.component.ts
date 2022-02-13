@@ -46,15 +46,15 @@ export class ReportesComponent implements OnInit {
     this.salarioEmpleado();
   }
 
-  salarioEmpleado(){
-    this._empleadoService.getSalario().subscribe((data) => {  
+  salarioEmpleado() {
+    this._empleadoService.getSalario().subscribe((data) => {
       this.listSalario = data
       this.listSalario.map((salario: any) => {
         return new Salario(salario._id, salario._nombre, salario._salario)
       })
       const dataSeries = this.listSalario.map((x: Salario) => x._salario)
       const dataCategorias = this.listSalario.map((x: Salario) => x._nombre)
-      
+
       this.chartOptions.title["text"] = "Salario de empleados"
       this.chartOptions.series[0]["data"] = dataSeries
       this.chartOptions.xAxis["categories"] = dataCategorias

@@ -54,12 +54,12 @@ export class CrearEmpleadoComponent implements OnInit {
     this._empleadoService.addEmpleado(this.empleadoForm.value)
       .pipe(first())
       .subscribe();
-      this._snackBar.open('Empleado añadido correctamente', '', {
-        duration: 1500,
-        horizontalPosition: 'center',
-        verticalPosition: 'bottom'
-      })
-      this.empleadoForm.reset();
+    this._snackBar.open('Empleado añadido correctamente', '', {
+      duration: 1500,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom'
+    })
+    this.empleadoForm.reset();
   }
 
   inputEmpleado() {
@@ -82,10 +82,10 @@ export class CrearEmpleadoComponent implements OnInit {
     this._empleadoService.editEmpleado(this.id!, this.empleadoForm.value)
       .pipe(first())
       .subscribe();
-      this._snackBar.open('Empleado editado correctamente', '', {
-        duration: 1500,
-        horizontalPosition: 'center',
-        verticalPosition: 'bottom'
-      });
+    this._snackBar.open('Empleado editado correctamente', '', {
+      duration: 1500,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom'
+    });
   }
 }

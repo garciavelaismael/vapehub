@@ -22,12 +22,12 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  ingresar()  {
+  ingresar() {
 
     const user = this.form.value.user;
     const password = this.form.value.password;
 
-    if(user == 'ismael' && password == '1234') {
+    if (user == 'ismael' && password == '1234') {
       // Redirección dashboard
       this.fakeLoading();
     } else {

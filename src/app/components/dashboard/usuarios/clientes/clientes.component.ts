@@ -28,7 +28,7 @@ export class ClientesComponent implements OnInit {
       .pipe((first()))
       .subscribe(data => {
         this.listClientes = data,
-        this.dataSource = new MatTableDataSource(this.listClientes);
+          this.dataSource = new MatTableDataSource(this.listClientes);
 
         this.loading = false;
       })

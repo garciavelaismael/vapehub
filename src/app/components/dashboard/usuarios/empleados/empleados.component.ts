@@ -15,7 +15,7 @@ export class EmpleadosComponent implements OnInit {
   loading = true;
   listEmpleados: Empleado[] = [];
 
-  displayedColumns = ['id', 'nombre', 'calle', 'numero', 'telefono', 'email', 'ventas', 'horas','acciones'];
+  displayedColumns = ['id', 'nombre', 'calle', 'numero', 'telefono', 'email', 'ventas', 'horas', 'acciones'];
   dataSource!: MatTableDataSource<any>;
 
   constructor(private _empleadoService: EmpleadoService,
@@ -36,16 +36,16 @@ export class EmpleadosComponent implements OnInit {
   }
 
   deleteEmpleado(id: number) {
-    this._empleadoService.deleteEmpleado(id). subscribe(data => {
-        console.log(data);
-        this.ngOnInit();
-        this._snackBar.open('Empleado eliminado correctamente', '', {
-          duration: 1500,
-          horizontalPosition: 'center',
-          verticalPosition: 'bottom'
-        })
-      },
-        error => console.log(error));
+    this._empleadoService.deleteEmpleado(id).subscribe(data => {
+      console.log(data);
+      this.ngOnInit();
+      this._snackBar.open('Empleado eliminado correctamente', '', {
+        duration: 1500,
+        horizontalPosition: 'center',
+        verticalPosition: 'bottom'
+      })
+    },
+      error => console.log(error));
   }
 
   addEmpleado() {
